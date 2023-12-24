@@ -12,13 +12,13 @@ published = "02 Jan, 2006"
 lastUpdated = "02 Jan 2006 15:04 MST"
 
 [sidebar]
-emoji = "🍥"
-subtitle = "A bunch of technical things."
+emoji = ""
+subtitle = "A hodgepodge of technical bits."
 
 [sidebar.avatar]
 enabled = true
 local = false
-src = "/static/img/kiwi.png"
+src = "/static/img/profile.png"
 
 [article]
 math = false
@@ -26,7 +26,7 @@ readingTime = true
 
 [article.license]
 enabled = true
-default = "Licensed under CC BY-NC-SA 4.0"
+default = "Licensed under CC BY-NC-SA 4.0, unless noted by credits."
 
 ## Widgets
 [[widgets.homepage]]
@@ -36,13 +36,13 @@ type = "search"
 type = "archives"
 
 [widgets.homepage.params]
-limit = 5
+limit = 10
 
 [[widgets.homepage]]
 type = "categories"
 
 [widgets.homepage.params]
-limit = 10
+limit = 20
 
 [[widgets.homepage]]
 type = "tag-cloud"
