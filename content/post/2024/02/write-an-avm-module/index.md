@@ -329,14 +329,7 @@ terraform {
 
 - In the ``name`` variable, update the regex in the validation condition.  If you're not sure how to do this, remove the validation block for now and we will return to it later.
 
-- Since our resource doesn't support private endpoints, add a tf-lint exception about the ``private_endpoints`` variable:
-
-```terraform
-# tflint-ignore: terraform_unused_declarations
-variable "private_endpoints" {
-  ...etc...
-}
-```
+- Since our resource doesn't support private endpoints, remove the "private_endpoints" variable.
 
 - For an unofficial module, you might want to consider setting the default value of the ``enable_telemetry`` variable to ``false``.
 
