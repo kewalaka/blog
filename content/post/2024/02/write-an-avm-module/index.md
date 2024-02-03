@@ -69,7 +69,7 @@ So, for example, the KeyVault GitHub repository would be:
 
 If you're planning to contribute back (I strongly encourage it!), it is a good idea to raise an issue, this will help validate the module naming & scope and start the process to find a Microsoft FTE to support the module.
 
-You can raise an issue here: <https://aka.ms/AVM/ModuleProposal>.
+You can raise a module proposal using this issue template: <https://aka.ms/AVM/ModuleProposal>.
 
 ## A practical example
 
