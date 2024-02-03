@@ -108,7 +108,7 @@ Within your cloned repo on Github, do the following:
 1. Set up a GitHub repo environment called `test`.
 1. Configure environment protection rule to ensure that approval is required before deploying to this environment.
 1. Create a user-assigned managed identity in your test subscription.
-1. Create a role assignment for the managed identity on your test subscription, recommend providing this "Contributor" and "Role Based Access Administrator".
+1. Create a role assignment for the managed identity on your test subscription, recommend providing this "Contributor" and "Role Based Access Control Administrator".
 1. Configure federated identity credentials on the user assigned managed identity. Use the GitHub environment.
 1. Set the following secrets on your GitHub environment:
    1. ``AZURE_TENANT_ID``
@@ -487,6 +487,12 @@ If you've been following along, hopefully success will smile down on you:
 
 ... at which your point can merge to main and congratulate yourself on getting this far!
 
+### Find this on Github
+
+You can find the result of this blog post at this location:
+
+<https://github.com/kewalaka/terraform-azurerm-avm-res-devcenter-devcenter>
+
 ## Where next
 
 There's more to follow in future blog posts, here's a taster:
@@ -516,6 +522,9 @@ You can also check out some of my own AVM-style modules, e.g. these ones in the 
 & you can find more on [my GitHub account](https://github.com/kewalaka), that I'm in the progress of contributing:
 
 - <https://github.com/kewalaka/terraform-azurerm-avm-res-sql-server>
-- <https://github.com/kewalaka/terraform-azurerm-res-storage-storageaccount>
-- <https://github.com/kewalaka/terraform-azapi-res-app-containerapp>
 - <https://github.com/kewalaka/terraform-azurerm-avm-res-cognitiveservices-account>
+- <https://github.com/kewalaka/terraform-azurerm-res-storage-storageaccount>
+
+Below is an "AVM-style" Container Apps that uses an AzureRM-like interface, whilst using AzAPI internally:
+
+- <https://github.com/kewalaka/terraform-azapi-res-app-containerapp>
