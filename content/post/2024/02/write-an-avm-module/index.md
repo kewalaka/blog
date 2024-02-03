@@ -15,7 +15,7 @@ This is a post about writing your first [Azure Verified Modules](https://aka.ms/
 
 This is recommended as a learning exercise to familiarise yourself with AVM.  I strongly encourage contributing to the official resource modules Microsoft is in the process of building.
 
-We're going to focus on writing a resource module, and we'll pick one Microsoft hasn't started yet:
+We're going to focus on writing a resource module:
 
 ![illustration of AVM resources and patterns](avm-resources-and-patterns.png)
 
@@ -35,6 +35,8 @@ Let's get started!
 ## Check for an existing module
 
 If a module already exists, we should use or contribute to the existing one.  They are all listed on the [AVM website](https://azure.github.io/Azure-Verified-Modules/indexes/terraform/tf-resource-modules/).
+
+Bear in mind that many resources are not available yet, as this initiative is new.  We're going to pick "Dev Center" for this example, as it doesn't yet exist in AVM for Terraform.
 
 ## AVM Module naming
 
@@ -71,13 +73,13 @@ You can raise an issue here: <https://aka.ms/AVM/ModuleProposal>.
 
 ## A practical example
 
-I'm going to walk you through the process of making an Azure Dev Centre in Terraform, this is co-incidentally something I need as a pre-requisite to building a [Dev Box](https://azure.microsoft.com/en-us/products/dev-box/) in the Azure.  The repo address for this will be:
+Lets get started making the Dev Centre resource module in Terraform, this is co-incidentally something I need as a pre-requisite to building a [Dev Box](https://azure.microsoft.com/en-us/products/dev-box/) in the Azure.  The repo address for this will be:
 
 <https://github.com/Azure/terraform-azurerm-avm-res-devcenter-devcenter>
 
 It's *a very simple example* with a limited number of inputs, a good place to start!
 
-Lets check the Hashicorp documentation to make sure there is support for it in the AzureRM Terraform provider, and here it is:
+We'll check the Hashicorp documentation to make sure there is support for it in the AzureRM Terraform provider, and here it is:
 
 <https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/dev_center>
 
