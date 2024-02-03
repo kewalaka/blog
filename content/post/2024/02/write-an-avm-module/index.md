@@ -11,7 +11,7 @@ tags:
  - avm
 ---
 
-This is a post about writing your first [Azure Verified Modules](https://aka.ms/AVM), for those interested in the background about AVM, check out this recent [intro on YouTube]("https://www.youtube.com/watch?v=JbIMrJKW5N0").
+This is a post about writing your first [Azure Verified Modules](https://aka.ms/AVM), for those interested in the background about AVM, check out this recent [intro on YouTube](https://www.youtube.com/watch?v=JbIMrJKW5N0).
 
 This is recommended as a learning exercise to familiarise yourself with AVM.  I strongly encourage contributing to the official resource modules Microsoft is in the process of building.
 
