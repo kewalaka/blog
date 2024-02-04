@@ -421,7 +421,7 @@ module "dev_center" {
 
 ## Updating docs and running PR checks
 
-This requires Docker to be installed as the checks run in a container (The Codespace is set up with docker support).
+This requires Docker to be installed as the checks run in a container (The Codespace is set up with Docker support).
 
 The AVM template includes a script to help running checks.  There is a bash version (``./avm``) and a batch file version (``./avm.bat``).  I recommend using the **bash** version.  
 
