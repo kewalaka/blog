@@ -208,6 +208,8 @@ Update the dynamic "identity" block (assuming it exists), following the referenc
   }
 ```
 
+Make sure you pick the correct one from the reference examples - the above is for resources that support both a SystemAssigned and UserAssigned identity, the specification has examples for other scenarios (e.g. SystemAssigned only).
+
 ### newres updates for variables.tf
 
 Edit the contents of newres\variables.tf to remove the following variables:
