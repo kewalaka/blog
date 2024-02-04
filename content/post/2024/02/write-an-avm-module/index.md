@@ -423,7 +423,7 @@ module "dev_center" {
 
 This requires Docker to be installed as the checks run in a container (The Codespace is set up with docker support).
 
-The AVM template includes a script to help running checks there is a bash version (``./avm``) and a batch file version (``./avm.bat``).  I recommend using the **bash** version.  
+The AVM template includes a script to help running checks.  There is a bash version (``./avm``) and a batch file version (``./avm.bat``).  I recommend using the **bash** version.  
 
 Don't forget to check the line-encoding is set to "LF", else you will get ``/usr/bin/env: ‘sh\r’: No such file or directory``.
 
