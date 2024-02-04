@@ -73,9 +73,7 @@ You can raise a module proposal using this issue template: <https://aka.ms/AVM/M
 
 ## A practical example
 
-Lets get started making the Dev Centre resource module in Terraform, this is co-incidentally something I need as a pre-requisite to building a [Dev Box](https://azure.microsoft.com/en-us/products/dev-box/) in the Azure.  The repo address for this will be:
-
-<https://github.com/Azure/terraform-azurerm-avm-res-devcenter-devcenter>
+Lets get started making the Dev Centre resource module in Terraform, this is co-incidentally something I need as a pre-requisite to building a [Dev Box](https://azure.microsoft.com/en-us/products/dev-box/) in Azure.
 
 It's *a very simple example* with a limited number of inputs, a good place to start!
 
@@ -85,7 +83,7 @@ We'll check the Hashicorp documentation to make sure there is support for it in 
 
 Remember, if AzureRM isn't available, there's always AzAPI, but that is for another day.
 
-You may need to register the "Microsoft.DevCenter" provider in your subscription resource providers if you are following along:
+You may need to register "Microsoft.DevCenter" in your subscription resource providers if you are following along:
 
 ![illustrating the registered Microsoft.DevCenter resource provider](resource-provider.png)
 
@@ -97,7 +95,7 @@ There is a an [AVM module template repository](https://github.com/Azure/terrafor
 
 The repo name will be ``terraform-azurerm-avm-res-devcenter-devcenter``:
 
-![illustration of how to name the repository](name-the-github-repo.png)
+![name the repository](name-the-github-repo.png)
 
 ## GitHub settings
 
@@ -149,7 +147,7 @@ If successful, you'll see:
 Successfully generated variables.tf and main.tf
 ```
 
-The newres naming convention needs an adjustment for AVM, in the generate main.tf, observe the variables all start **dev_centre_** - we need to remove this prefix, leaving you with this:
+The newres naming convention needs an adjustment for AVM, in the generated main.tf, observe the variables all start **dev_centre_** - we need to remove this prefix, leaving you with this:
 
 ```terraform
 resource "azurerm_dev_center" "this" {
@@ -222,8 +220,8 @@ Edit the contents of newres\variables.tf to remove the following variables:
 
 (we're going to use the ones in the template, instead).
 
-Copy the remaining variables to the top of ``variables.tf`` file in the module root folder
-(in our case, there is only 'timeouts').
+Copy the remaining variables to the top of ``variables.tf`` file in the module root folder.
+(in our case, there is only a 'timeouts' variable remaining).
 
 ### newres tidy-up
 
@@ -270,7 +268,7 @@ There are a few "TODO" references in the files that need to be fixed and removed
 
 ### main.tf
 
-- update ``azurerm_TODO_resource`` appropriately, e.g. ``azurerm_dev_center``
+- update ``azurerm_TODO_resource`` appropriately, e.g. ``azurerm_dev_center``.
 
 ### locals.telemetry.tf
 
@@ -282,7 +280,7 @@ There are a few "TODO" references in the files that need to be fixed and removed
   module_type = "res"
 ```
 
-I suggest setting telem_puid to "UNOFFICIAL" on learning resources.
+I suggest setting telem_puid to "UNOFFICIAL" in resources created for learning.
 
 ### main.privateendpoint.tf
 
@@ -299,17 +297,17 @@ private_service_connection {
 
 *However*, in this case, Dev Center doesn't support private endpoints, so we're going to remove this file altogether.
 
-There's a handy [link](https://learn.microsoft.com/en-us/azure/private-link/private-endpoint-overview#private-link-resource) in the template that helps find the right subresource name, should you need it for your resource.
+There is a handy [link](https://learn.microsoft.com/en-us/azure/private-link/private-endpoint-overview#private-link-resource) in the template that helps find the right subresource name, should you need it for your resource.
 
 ### locals.tf
 
 - We don't have any locals to add at the moment, so lets remove the reminder to "insert locals here"
-- In this case, lets also remove the private endpoint local var, as we don't need private endpoints.
+- In our example, lets also remove the private endpoint local var, as we don't need private endpoints.
 
 ### terraform.tf
 
 - remove the reminder to add required providers
-- providers should really be versioned like this (correction to template needed):
+- providers should really be versioned like this (a correction to template is needed to align to AVM):
 
 ```terraform
 terraform {
@@ -379,13 +377,13 @@ If this is not an official module, then I suggest removing the following files:
 
 ## Creating the default example
 
-Each of the ``.\examples`` folder of the module are run as part of the end to end tests during the the pull request workflow.
+Each of the subfolders inside ``.\examples`` contain a test that is run as part of the end-to-end tests during the the pull request workflow.
 
 AVM modules start with a "default" example - the purpose of this is to test the module in its simplest form with the minimum number of parameters.
 
-### Updates to the default example
+### Update the default example
 
-In the default example, you may need to modify the resource group logic if you have policy that restricts where you can deploy locations:
+In the default example, you may need to modify the resource group logic if you have policy that restricts where you can deploy resources:
 
 ```terraform
 resource "azurerm_resource_group" "this" {
@@ -402,7 +400,7 @@ This also means we can remove the logic that randomly selects a region:
 
 ![lines to be removed](remove-random-region.png)
 
-The module call if at the end of ``main.tf``, this would typically need adjustment to add the required variables, however in the case of Dev Center, just the name and resource group is enough:
+The module call is at the end of ``main.tf``, this would typically need adjustment to add the required variables, however in the case of Dev Center, just the name and resource group is enough:
 
 ```terraform
 # This is the module call
