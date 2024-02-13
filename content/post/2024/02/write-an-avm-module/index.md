@@ -192,9 +192,15 @@ Remove the TODO from the top of the file & update the location as follows:
   location            = coalesce(var.location, local.resource_group_location)
 ```
 
+### Update the identity block in main.tf
+
 Update the dynamic "identity" block (assuming it exists), following the reference examples in the [AVM interface specification for managed identities](https://azure.github.io/Azure-Verified-Modules/specs/shared/interfaces/#managed-identities):
 
-![managed identity interface example implementation](managed-identity-interface.png)
+![managed identity implementation - for resources supporting both a SystemAssigned & UserAssigned id](managed-identity-interface.png)
+
+Make sure to check the Hashicorp documentation to confirm the identities supported by the resource (SystemAssigned, UserAssigned, or both).
+
+The [identity block for the Dev Center resource](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/dev_center#identity-block) shows that both types of identities are supported.
 
 ```terraform
   dynamic "identity" {
@@ -206,7 +212,7 @@ Update the dynamic "identity" block (assuming it exists), following the referenc
   }
 ```
 
-Make sure you pick the correct one from the reference examples - the above is for resources that support both a SystemAssigned and UserAssigned identity, the specification has examples for other scenarios (e.g. SystemAssigned only).
+The [specification](https://azure.github.io/Azure-Verified-Modules/specs/shared/interfaces/#managed-identities) has examples for other scenarios (e.g. SystemAssigned only, or UserAssigned only).
 
 ### newres updates for variables.tf
 
