@@ -212,7 +212,7 @@ The [identity block for the Dev Center resource](https://registry.terraform.io/p
   }
 ```
 
-The [specification](https://azure.github.io/Azure-Verified-Modules/specs/shared/interfaces/#managed-identities) has examples for other scenarios (e.g. SystemAssigned only, or UserAssigned only).
+The [Terraform variable declaration in the specification](https://azure.github.io/Azure-Verified-Modules/specs/shared/interfaces/#managed-identities) has examples for other scenarios (e.g. SystemAssigned only, or UserAssigned only).
 
 ### newres updates for variables.tf
 
