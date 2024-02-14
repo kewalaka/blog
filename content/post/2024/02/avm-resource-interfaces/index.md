@@ -9,7 +9,6 @@ categories:
 tags:
  - terraform
  - avm
-draft: true
 ---
 
 Regardless of whether you are writing AVM modules, or simply using them, it is important to understand the "shared interfaces", as described on the [AVM website](<https://azure.github.io/Azure-Verified-Modules/specs/shared/interfaces/>).
