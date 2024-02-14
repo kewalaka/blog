@@ -11,9 +11,9 @@ tags:
  - avm
 ---
 
-Regardless of whether you are writing AVM modules, or simply using them, it is important to understand the "shared interfaces", as described on the [AVM website](<https://azure.github.io/Azure-Verified-Modules/specs/shared/interfaces/>).
+Regardless of whether you are writing AVM modules, or simply using them, it is useful to understand the "shared interfaces", as described on the [AVM website](<https://azure.github.io/Azure-Verified-Modules/specs/shared/interfaces/>).
 
-Each module must support the following interfaces if they are supported by the underlying resource:
+Each module must implement the following interfaces if they are supported by the underlying resource:
 
 ![list of shared interfaces in a module](module_shared_interfaces.png)
 
@@ -51,9 +51,9 @@ Whether you use them, is optional.  Lets dive into some examples!
 
 ## Role Assignments example
 
-Lets take role assignments for KeyVault as an example, we'll add a couple, one for a pretend app, and another for the principal running the devops pipeline (say, to let it update secrets).
+We'll make a couple role assignments for a Key Vault, one for a pretend app, and another for the principal running the devops pipeline (say, to let the pipeline update secrets).
 
-Here's how you might be tempted to write a role assignment:
+Here's how you might be tempted to write this:
 
 ```terraform
 module "keyvault" {
@@ -115,7 +115,9 @@ The name of the keys ("my_app_secrets_user" and "devops_principal_secrets_office
 
 ## Private endpoint example
 
-The way to specify a private endpoint is similar, you can see it in full in one of the end-to-end tests in the [official KeyVault repository](https://github.com/Azure/terraform-azurerm-avm-res-keyvault-vault/tree/main/examples/private-endpoint), but here is the relevant snippet for illustration:
+The way to specify a private endpoint is similar, you can see it in full in one of the end-to-end tests in the [official KeyVault repository](https://github.com/Azure/terraform-azurerm-avm-res-keyvault-vault/tree/main/examples/private-endpoint).
+
+Here is the relevant snippet for illustration:
 
 ```terraform
 module "keyvault" {
@@ -136,11 +138,11 @@ module "keyvault" {
 }
 ```
 
-The important point to note, is the same interface is shared between resources, which means if you know how to add a role assignment or a private endpoint to a Keyvault, it is the same for a Storage Account, Database etc.
+The important point, is the **same interface is shared between resources**, which means if you know how to add a role assignment or a private endpoint to a Key Vault, it is the same for a Storage Account, Database etc.
 
 ## Wait, this looks like CARML?
 
-Seasoned followers of the Bicep will likely recognise this approach from the "CARML" library (which is merging with AVM).
+Seasoned followers of the Bicep will likely recognise this approach from the [CARML library](https://github.com/Azure/ResourceModules)
 
 That is no accident!  AVM seeks to align the experience between Bicep and Terraform resource modules, whilst acknowledging recommended practices from each language.
 
@@ -200,11 +202,11 @@ module "keyvault" {
 A few things to call out in the above:
 
 * Secrets are specified as a map supplied to the ``secrets`` variable.  A separate variable is used for ``secrets_value`` because it is marked as sensitive and therefore cannot be used in a "for_each" loop.  
-* The map name (e.g. "my_first_secret") needs to match between the secret & the secret_value.
+* The map key (e.g. "my_first_secret") needs to match between the secret & the secret_value.
 
-Since RBAC & the firewall is enabled, I'm creating a role for the pipeline to be able to create the secret, and updating the IP restrictions based on the runner's IP.  In an enterprise, this would typically be done using a self-hosted runner, and you would allow the IPs that the runners can originate from.
+Since RBAC & the firewall is enabled, I'm creating a role for the pipeline to be able to create the secret, and updating the IP restrictions based on the runner's IP.  In an enterprise, this would typically be done using a self-hosted runner.
 
-Here's a more complex block that illustrates the support for other parameters:
+Here's a more complex block that illustrates AVM support for all secret parameters:
 
 ```terraform
   secrets = {
@@ -265,7 +267,7 @@ Here is the secret block showing a role assignment against an individual secret:
   }
 ```
 
-This is the same approach for other resources, for instance creating role assignments against a storage container.
+This same approach is repeated for other resources, for instance creating role assignments against a storage container.
 
 ## Find the code on GitHub
 
