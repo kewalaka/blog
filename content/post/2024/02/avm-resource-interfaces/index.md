@@ -47,6 +47,8 @@ module "keyvault" {
 
 ```
 
+Whether you use them, is optional.  Lets dive into some examples!
+
 ## Role Assignments example
 
 Lets take role assignments for KeyVault as an example, we'll add a couple, one for a pretend app, and another for the principal running the devops pipeline (say, to let it update secrets).
