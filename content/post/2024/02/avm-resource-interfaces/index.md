@@ -32,8 +32,8 @@ module "keyvault" {
   role_assignments = {
     # define the role assignments
   }
-  secrets = {
-    # define the secrets
+  lock = {
+    # define the resource locks
   }
   private_endpoints = {
     # define the private endpoints
