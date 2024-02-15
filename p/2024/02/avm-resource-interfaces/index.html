@@ -1,0 +1,364 @@
+<!doctype html><html lang=en dir=ltr><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=description content="Regardless of whether you are writing AVM modules, or simply using them, it is useful to understand the &amp;ldquo;shared interfaces&amp;rdquo;, as described on the AVM website.
+Each module must implement the following interfaces if they are supported by the underlying resource:
+What does this mean as a module consumer? It means there should be a module input available for each of these:
+1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 module &amp;#34;keyvault&amp;#34; { source = &amp;#34;Azure/avm-res-keyvault-vault/azurerm&amp;#34; version = &amp;#34;0."><title>AVM module interfaces & their children</title>
+<link rel=canonical href=https://blog.kewalaka.nz/p/2024/02/avm-resource-interfaces/><link rel=stylesheet href=/scss/style.min.abbd69b2908fdfcd5179898beaafd374514a86538d81639ddd2c58c06ae54e40.css><meta property="og:title" content="AVM module interfaces & their children"><meta property="og:description" content="Regardless of whether you are writing AVM modules, or simply using them, it is useful to understand the &amp;ldquo;shared interfaces&amp;rdquo;, as described on the AVM website.
+Each module must implement the following interfaces if they are supported by the underlying resource:
+What does this mean as a module consumer? It means there should be a module input available for each of these:
+1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 module &amp;#34;keyvault&amp;#34; { source = &amp;#34;Azure/avm-res-keyvault-vault/azurerm&amp;#34; version = &amp;#34;0."><meta property="og:url" content="https://blog.kewalaka.nz/p/2024/02/avm-resource-interfaces/"><meta property="og:site_name" content="The blog of Kewalaka"><meta property="og:type" content="article"><meta property="article:section" content="Post"><meta property="article:tag" content="terraform"><meta property="article:tag" content="avm"><meta property="article:published_time" content="2024-02-06T10:56:47+13:00"><meta property="article:modified_time" content="2024-02-06T10:56:47+13:00"><meta property="og:image" content="https://blog.kewalaka.nz/p/2024/02/avm-resource-interfaces/i_am_your_parent.png"><meta name=twitter:title content="AVM module interfaces & their children"><meta name=twitter:description content="Regardless of whether you are writing AVM modules, or simply using them, it is useful to understand the &amp;ldquo;shared interfaces&amp;rdquo;, as described on the AVM website.
+Each module must implement the following interfaces if they are supported by the underlying resource:
+What does this mean as a module consumer? It means there should be a module input available for each of these:
+1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 module &amp;#34;keyvault&amp;#34; { source = &amp;#34;Azure/avm-res-keyvault-vault/azurerm&amp;#34; version = &amp;#34;0."><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content="https://blog.kewalaka.nz/p/2024/02/avm-resource-interfaces/i_am_your_parent.png"></head><body class=article-page><script>(function(){const e="StackColorScheme";localStorage.getItem(e)||localStorage.setItem(e,"auto")})()</script><script>(function(){const t="StackColorScheme",e=localStorage.getItem(t),n=window.matchMedia("(prefers-color-scheme: dark)").matches===!0;e=="dark"||e==="auto"&&n?document.documentElement.dataset.scheme="dark":document.documentElement.dataset.scheme="light"})()</script><div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky"><button class="hamburger hamburger--spin" type=button id=toggle-menu aria-label="Toggle Menu">
+<span class=hamburger-box><span class=hamburger-inner></span></span></button><header><figure class=site-avatar><a href=/><img src=/static/img/profile.png width=300 height=300 class=site-logo loading=lazy alt=Avatar></a></figure><div class=site-meta><h1 class=site-name><a href=/>The blog of Kewalaka</a></h1><h2 class=site-description>A hodgepodge of technical bits.</h2></div></header><ol class=social-menu><li><a href=https://github.com/kewalaka target=_blank title=GitHub rel=me><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M9 19c-4.3 1.4-4.3-2.5-6-3m12 5v-3.5c0-1 .1-1.4-.5-2 2.8-.3 5.5-1.4 5.5-6a4.6 4.6.0 00-1.3-3.2 4.2 4.2.0 00-.1-3.2s-1.1-.3-3.5 1.3a12.3 12.3.0 00-6.2.0C6.5 2.8 5.4 3.1 5.4 3.1a4.2 4.2.0 00-.1 3.2A4.6 4.6.0 004 9.5c0 4.6 2.7 5.7 5.5 6-.6.6-.6 1.2-.5 2V21"/></svg></a></li><li><a href=https://www.linkedin.com/in/stumace target=_blank title=LinkedIn rel=me><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="7" r="4"/><path d="M6 21v-2a4 4 0 014-4h4a4 4 0 014 4v2"/></svg></a></li></ol><ol class=menu id=main-menu><li><a href=/><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><polyline points="5 12 3 12 12 3 21 12 19 12"/><path d="M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"/><path d="M9 21v-6a2 2 0 012-2h2a2 2 0 012 2v6"/></svg>
+<span>Home</span></a></li><li><a href=/archives/><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><rect x="3" y="4" width="18" height="4" rx="2"/><path d="M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8"/><line x1="10" y1="12" x2="14" y2="12"/></svg>
+<span>Archives</span></a></li><li><a href=/search/><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="10" cy="10" r="7"/><line x1="21" y1="21" x2="15" y2="15"/></svg>
+<span>Search</span></a></li><div class=menu-bottom-section><li id=dark-mode-toggle><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="8" cy="12" r="2"/><rect x="2" y="6" width="20" height="12" rx="6"/></svg>
+<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="16" cy="12" r="2"/><rect x="2" y="6" width="20" height="12" rx="6"/></svg>
+<span>Dark Mode</span></li></div></ol></aside><aside class="sidebar right-sidebar sticky"><section class="widget archives"><div class=widget-icon><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><line x1="5" y1="9" x2="19" y2="9"/><line x1="5" y1="15" x2="19" y2="15"/><line x1="11" y1="4" x2="7" y2="20"/><line x1="17" y1="4" x2="13" y2="20"/></svg></div><h2 class="widget-title section-title">Table of contents</h2><div class=widget--toc><nav id=TableOfContents><ol><li><a href=#role-assignments-example>Role Assignments example</a><ol><li><a href=#avm-key-vault-role-assignment>AVM: Key vault role assignment</a></li></ol></li><li><a href=#private-endpoint-example>Private endpoint example</a></li><li><a href=#wait-this-looks-like-carml>Wait, this looks like CARML?</a></li><li><a href=#child-resources>Child resources</a><ol><li><a href=#avm-create-a-secret>AVM: create a secret</a></li></ol></li><li><a href=#role-assignments-for-child-resources>Role assignments for child resources</a><ol><li><a href=#avm-secrets-with-role-assignments>AVM: secrets with role assignments</a></li></ol></li><li><a href=#find-the-code-on-github>Find the code on GitHub</a></li></ol></nav></div></section></aside><main class="main full-width"><article class="has-image main-article"><header class=article-header><div class=article-image><a href=/p/2024/02/avm-resource-interfaces/><img src=/p/2024/02/avm-resource-interfaces/i_am_your_parent_huc23435601578979f25568bab33f71934_24123_800x0_resize_box_3.png srcset="/p/2024/02/avm-resource-interfaces/i_am_your_parent_huc23435601578979f25568bab33f71934_24123_800x0_resize_box_3.png 800w, /p/2024/02/avm-resource-interfaces/i_am_your_parent_huc23435601578979f25568bab33f71934_24123_1600x0_resize_box_3.png 1600w" width=800 height=265 loading=lazy alt="Featured image of post AVM module interfaces & their children"></a></div><div class=article-details><header class=article-category><a href=/categories/iac/>iac</a></header><div class=article-title-wrapper><h2 class=article-title><a href=/p/2024/02/avm-resource-interfaces/>AVM module interfaces & their children</a></h2></div><footer class=article-time><div><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><path d="M11.795 21H5a2 2 0 01-2-2V7a2 2 0 012-2h12a2 2 0 012 2v4"/><circle cx="18" cy="18" r="4"/><path d="M15 3v4"/><path d="M7 3v4"/><path d="M3 11h16"/><path d="M18 16.496V18l1 1"/></svg>
+<time class=article-time--published>06 Feb, 2024</time></div><div><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
+<time class=article-time--reading>6 minute read</time></div></footer></div></header><section class=article-content><p>Regardless of whether you are writing AVM modules, or simply using them, it is useful to understand the &ldquo;shared interfaces&rdquo;, as described on the <a class=link href=https://azure.github.io/Azure-Verified-Modules/specs/shared/interfaces/ target=_blank rel=noopener>AVM website</a>.</p><p>Each module must implement the following interfaces if they are supported by the underlying resource:</p><p><img src=/p/2024/02/avm-resource-interfaces/module_shared_interfaces.png width=565 height=814 srcset="/p/2024/02/avm-resource-interfaces/module_shared_interfaces_hu52a363558a5470812461d3523d99598f_76418_480x0_resize_box_3.png 480w, /p/2024/02/avm-resource-interfaces/module_shared_interfaces_hu52a363558a5470812461d3523d99598f_76418_1024x0_resize_box_3.png 1024w" loading=lazy alt="list of shared interfaces in a module" class=gallery-image data-flex-grow=69 data-flex-basis=166px></p><p>What does this mean as a module consumer? It means there should be a module input available for each of these:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-terraform data-lang=terraform><span class=line><span class=cl><span class=kr>module</span> <span class=s2>&#34;keyvault&#34;</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>  <span class=na>source</span>                        = <span class=s2>&#34;Azure/avm-res-keyvault-vault/azurerm&#34;</span>
+</span></span><span class=line><span class=cl>  <span class=na>version</span>                       = <span class=s2>&#34;0.5.1&#34;</span>
+</span></span><span class=line><span class=cl>  <span class=na>name</span>                          = <span class=nb>module</span><span class=p>.</span><span class=nx>naming</span><span class=p>.</span><span class=nx>key_vault</span><span class=p>.</span><span class=nx>name_unique</span>
+</span></span><span class=line><span class=cl>  <span class=na>location</span>                      = <span class=nx>azurerm_resource_group</span><span class=p>.</span><span class=nx>this</span><span class=p>.</span><span class=nx>location</span>
+</span></span><span class=line><span class=cl>  <span class=na>resource_group_name</span>           = <span class=nx>azurerm_resource_group</span><span class=p>.</span><span class=nx>this</span><span class=p>.</span><span class=nx>name</span>
+</span></span><span class=line><span class=cl>  <span class=na>tenant_id</span>                     = <span class=nb>data</span><span class=p>.</span><span class=nx>azurerm_client_config</span><span class=p>.</span><span class=nx>this</span><span class=p>.</span><span class=nx>tenant_id</span>
+</span></span><span class=line><span class=cl>  <span class=na>sku_name</span>                      = <span class=s2>&#34;standard&#34;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>  <span class=na>role_assignments</span> = <span class=p>{</span><span class=c1>
+</span></span></span><span class=line><span class=cl><span class=c1>    # define the role assignments
+</span></span></span><span class=line><span class=cl><span class=c1></span>  <span class=p>}</span>
+</span></span><span class=line><span class=cl>  <span class=na>lock</span> = <span class=p>{</span><span class=c1>
+</span></span></span><span class=line><span class=cl><span class=c1>    # define the resource locks
+</span></span></span><span class=line><span class=cl><span class=c1></span>  <span class=p>}</span>
+</span></span><span class=line><span class=cl>  <span class=na>private_endpoints</span> = <span class=p>{</span><span class=c1>
+</span></span></span><span class=line><span class=cl><span class=c1>    # define the private endpoints
+</span></span></span><span class=line><span class=cl><span class=c1></span>  <span class=p>}</span>
+</span></span><span class=line><span class=cl>  <span class=na>diagnostic_settings</span> = <span class=p>{</span><span class=c1>
+</span></span></span><span class=line><span class=cl><span class=c1>    # define the diagnostic settings
+</span></span></span><span class=line><span class=cl><span class=c1></span>  <span class=p>}</span><span class=c1>
+</span></span></span><span class=line><span class=cl><span class=c1>  // etc
+</span></span></span><span class=line><span class=cl><span class=c1></span>  <span class=na>tags</span> = <span class=nb>var</span><span class=p>.</span><span class=nx>tags</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>Whether you use them, is optional. Lets dive into some examples!</p><h2 id=role-assignments-example>Role Assignments example</h2><p>We&rsquo;ll make a couple role assignments for a Key Vault, one for a pretend app, and another for the principal running the devops pipeline (say, to let the pipeline update secrets).</p><p>Here&rsquo;s how you might be tempted to write this:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-terraform data-lang=terraform><span class=line><span class=cl><span class=kr>module</span> <span class=s2>&#34;keyvault&#34;</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>  <span class=na>source</span>                   = <span class=s2>&#34;Azure/avm-res-keyvault-vault/azurerm&#34;</span>
+</span></span><span class=line><span class=cl>  <span class=na>version</span>                  = <span class=s2>&#34;0.5.1&#34;</span>
+</span></span><span class=line><span class=cl>  <span class=na>name</span>                     = <span class=nx>local</span><span class=p>.</span><span class=nx>keyvault_name</span>
+</span></span><span class=line><span class=cl>  <span class=na>enable_telemetry</span>         = <span class=kc>false</span>
+</span></span><span class=line><span class=cl>  <span class=na>resource_group_name</span>      = <span class=nb>data</span><span class=p>.</span><span class=nx>azurerm_resource_group</span><span class=p>.</span><span class=nx>parent</span><span class=p>.</span><span class=nx>name</span>
+</span></span><span class=line><span class=cl>  <span class=na>location</span>                 = <span class=nx>local</span><span class=p>.</span><span class=nx>location</span>
+</span></span><span class=line><span class=cl>  <span class=na>tenant_id</span>                = <span class=nb>data</span><span class=p>.</span><span class=nx>azurerm_client_config</span><span class=p>.</span><span class=nx>this</span><span class=p>.</span><span class=nx>tenant_id</span>
+</span></span><span class=line><span class=cl>  <span class=na>purge_protection_enabled</span> = <span class=kc>false</span>
+</span></span><span class=line><span class=cl>  <span class=na>sku_name</span>                 = <span class=s2>&#34;standard&#34;</span>
+</span></span><span class=line><span class=cl>  <span class=na>tags</span>                     = <span class=nb>var</span><span class=p>.</span><span class=nx>tags</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=kr>
+</span></span></span><span class=line><span class=cl><span class=kr>resource</span> <span class=s2>&#34;azurerm_role_assignment&#34;</span> <span class=s2>&#34;my_app_secrets_user&#34;</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>  <span class=na>scope</span>                = <span class=nb>module</span><span class=p>.</span><span class=nx>keyvault</span><span class=p>.</span><span class=nx>resource</span><span class=p>.</span><span class=nx>id</span>
+</span></span><span class=line><span class=cl>  <span class=na>role_definition_name</span> = <span class=s2>&#34;Key Vault Secrets User&#34;</span>
+</span></span><span class=line><span class=cl>  <span class=na>principal_id</span>         = <span class=s2>&#34;a2b9c8d7-1e3f-42c5-b6a7-c8e9l0d1e2a3&#34;</span><span class=c1> # this is a made up ID! 
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=kr>
+</span></span></span><span class=line><span class=cl><span class=kr>resource</span> <span class=s2>&#34;azurerm_role_assignment&#34;</span> <span class=s2>&#34;devops_principal_secrets_officer&#34;</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>  <span class=na>scope</span>                = <span class=nb>module</span><span class=p>.</span><span class=nx>keyvault</span><span class=p>.</span><span class=nx>resource</span><span class=p>.</span><span class=nx>id</span>
+</span></span><span class=line><span class=cl>  <span class=na>role_definition_name</span> = <span class=s2>&#34;Key Vault Secrets Officer&#34;</span>
+</span></span><span class=line><span class=cl>  <span class=na>principal_id</span>         = <span class=nb>data</span><span class=p>.</span><span class=nx>azurerm_client_config</span><span class=p>.</span><span class=nx>example</span><span class=p>.</span><span class=nx>object_id</span>  
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=avm-key-vault-role-assignment>AVM: Key vault role assignment</h3><p>This is perfectly valid, and it will work, but in AVM you can provide the role assignment directly to the module, like this:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-terraform data-lang=terraform><span class=line><span class=cl><span class=kr>module</span> <span class=s2>&#34;keyvault&#34;</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>  <span class=na>source</span>                   = <span class=s2>&#34;Azure/avm-res-keyvault-vault/azurerm&#34;</span>
+</span></span><span class=line><span class=cl>  <span class=na>version</span>                  = <span class=s2>&#34;0.5.1&#34;</span>
+</span></span><span class=line><span class=cl>  <span class=na>name</span>                     = <span class=nx>local</span><span class=p>.</span><span class=nx>keyvault_name</span>
+</span></span><span class=line><span class=cl>  <span class=na>resource_group_name</span>      = <span class=nb>data</span><span class=p>.</span><span class=nx>azurerm_resource_group</span><span class=p>.</span><span class=nx>parent</span><span class=p>.</span><span class=nx>name</span>
+</span></span><span class=line><span class=cl>  <span class=na>location</span>                 = <span class=nx>local</span><span class=p>.</span><span class=nx>location</span>
+</span></span><span class=line><span class=cl>  <span class=na>tenant_id</span>                = <span class=nb>data</span><span class=p>.</span><span class=nx>azurerm_client_config</span><span class=p>.</span><span class=nx>this</span><span class=p>.</span><span class=nx>tenant_id</span>
+</span></span><span class=line><span class=cl>  <span class=na>purge_protection_enabled</span> = <span class=kc>false</span>
+</span></span><span class=line><span class=cl>  <span class=na>sku_name</span>                 = <span class=s2>&#34;standard&#34;</span>
+</span></span><span class=line><span class=cl>  <span class=na>tags</span>                     = <span class=nb>var</span><span class=p>.</span><span class=nx>tags</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>  <span class=na>role_assignments</span> = <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=na>my_app_secrets_user</span> = <span class=p>{</span>
+</span></span><span class=line><span class=cl>      <span class=na>role_definition_id_or_name</span> = <span class=s2>&#34;Key Vault Secrets User&#34;</span>
+</span></span><span class=line><span class=cl>      <span class=na>principal_id</span>               = <span class=s2>&#34;a2b9c8d7-1e3f-42c5-d6i7-c8k9l0a1b2e3&#34;</span><span class=c1> # this is a made up ID!
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=p>},</span>
+</span></span><span class=line><span class=cl>    <span class=na>devops_principal_secrets_officer</span> = <span class=p>{</span>
+</span></span><span class=line><span class=cl>      <span class=na>role_definition_id_or_name</span> = <span class=s2>&#34;Key Vault Secrets Officer&#34;</span>
+</span></span><span class=line><span class=cl>      <span class=na>principal_id</span>               = <span class=nb>data</span><span class=p>.</span><span class=nx>azurerm_client_config</span><span class=p>.</span><span class=nx>this</span><span class=p>.</span><span class=nx>object_id</span>  
+</span></span><span class=line><span class=cl>    <span class=p>},</span>
+</span></span><span class=line><span class=cl>  <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>The name of the keys (&ldquo;my_app_secrets_user&rdquo; and &ldquo;devops_principal_secrets_officer&rdquo;) is arbitrary but should be statically named. This relates to the correct use of &ldquo;for each&rdquo;, which is explained in <a class=link href="https://www.youtube.com/watch?v=Q4ANHRUsVKA" target=_blank rel=noopener>this video from Matt White&rsquo;s YouTube channel</a>.</p><h2 id=private-endpoint-example>Private endpoint example</h2><p>The way to specify a private endpoint is similar, you can see it in full in one of the end-to-end tests in the <a class=link href=https://github.com/Azure/terraform-azurerm-avm-res-keyvault-vault/tree/main/examples/private-endpoint target=_blank rel=noopener>official KeyVault repository</a>.</p><p>Here is the relevant snippet for illustration:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-terraform data-lang=terraform><span class=line><span class=cl><span class=kr>module</span> <span class=s2>&#34;keyvault&#34;</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>  <span class=na>source</span>                        = <span class=s2>&#34;Azure/avm-res-keyvault-vault/azurerm&#34;</span>
+</span></span><span class=line><span class=cl>  <span class=na>version</span>                       = <span class=s2>&#34;0.5.1&#34;</span>
+</span></span><span class=line><span class=cl>  <span class=na>name</span>                          = <span class=nb>module</span><span class=p>.</span><span class=nx>naming</span><span class=p>.</span><span class=nx>key_vault</span><span class=p>.</span><span class=nx>name_unique</span>
+</span></span><span class=line><span class=cl>  <span class=na>location</span>                      = <span class=nx>azurerm_resource_group</span><span class=p>.</span><span class=nx>this</span><span class=p>.</span><span class=nx>location</span>
+</span></span><span class=line><span class=cl>  <span class=na>resource_group_name</span>           = <span class=nx>azurerm_resource_group</span><span class=p>.</span><span class=nx>this</span><span class=p>.</span><span class=nx>name</span>
+</span></span><span class=line><span class=cl>  <span class=na>tenant_id</span>                     = <span class=nb>data</span><span class=p>.</span><span class=nx>azurerm_client_config</span><span class=p>.</span><span class=nx>this</span><span class=p>.</span><span class=nx>tenant_id</span>
+</span></span><span class=line><span class=cl>  <span class=na>public_network_access_enabled</span> = <span class=kc>false</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>  <span class=na>private_endpoints</span> = <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=na>primary</span> = <span class=p>{</span>
+</span></span><span class=line><span class=cl>      <span class=na>private_dns_zone_resource_ids</span> = <span class=p>[</span><span class=nx>azurerm_private_dns_zone</span><span class=p>.</span><span class=nx>this</span><span class=p>.</span><span class=nx>id</span><span class=p>]</span>
+</span></span><span class=line><span class=cl>      <span class=na>subnet_resource_id</span>            = <span class=nx>azurerm_subnet</span><span class=p>.</span><span class=nx>this</span><span class=p>.</span><span class=nx>id</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>  <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>The important point, is the <strong>same interface is shared between resources</strong>, which means if you know how to add a role assignment or a private endpoint to a Key Vault, it is the same for a Storage Account, Database etc.</p><h2 id=wait-this-looks-like-carml>Wait, this looks like CARML?</h2><p>Seasoned followers of the Bicep will likely recognise this approach from the <a class=link href=https://github.com/Azure/ResourceModules target=_blank rel=noopener>CARML library</a></p><p>That is no accident! AVM seeks to align the experience between Bicep and Terraform resource modules, whilst acknowledging recommended practices from each language.</p><h2 id=child-resources>Child resources</h2><p>The scoping of child resources with the parent module is another example where the Terraform and Bicep approach is united. Below illustrates what the looks like for Key Vault:</p><p><img src=/p/2024/02/avm-resource-interfaces/keyvault_child_resources.png width=565 height=470 srcset="/p/2024/02/avm-resource-interfaces/keyvault_child_resources_hu7ca81c7851e1d4ed04763ba67c8e79a9_25498_480x0_resize_box_3.png 480w, /p/2024/02/avm-resource-interfaces/keyvault_child_resources_hu7ca81c7851e1d4ed04763ba67c8e79a9_25498_1024x0_resize_box_3.png 1024w" loading=lazy alt="Child resources within a KeyVault" class=gallery-image data-flex-grow=120 data-flex-basis=288px></p><h3 id=avm-create-a-secret>AVM: create a secret</h3><p>As an example, secrets can be defined like this (line 29 onwards):</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-terraform data-lang=terraform><span class=line><span class=cl><span class=kr>data</span> <span class=s2>&#34;http&#34;</span> <span class=s2>&#34;my_ip&#34;</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>  <span class=na>url</span> = <span class=s2>&#34;https://ifconfig.me/ip&#34;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=kr>
+</span></span></span><span class=line><span class=cl><span class=kr>module</span> <span class=s2>&#34;keyvault&#34;</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>  <span class=na>source</span>                        = <span class=s2>&#34;Azure/avm-res-keyvault-vault/azurerm&#34;</span>
+</span></span><span class=line><span class=cl>  <span class=na>version</span>                       = <span class=s2>&#34;0.5.1&#34;</span>
+</span></span><span class=line><span class=cl>  <span class=na>name</span>                          = <span class=nb>module</span><span class=p>.</span><span class=nx>naming</span><span class=p>.</span><span class=nx>key_vault</span><span class=p>.</span><span class=nx>name_unique</span>
+</span></span><span class=line><span class=cl>  <span class=na>enable_telemetry</span>              = <span class=nb>var</span><span class=p>.</span><span class=nx>enable_telemetry</span>
+</span></span><span class=line><span class=cl>  <span class=na>location</span>                      = <span class=nx>azurerm_resource_group</span><span class=p>.</span><span class=nx>this</span><span class=p>.</span><span class=nx>location</span>
+</span></span><span class=line><span class=cl>  <span class=na>resource_group_name</span>           = <span class=nx>azurerm_resource_group</span><span class=p>.</span><span class=nx>this</span><span class=p>.</span><span class=nx>name</span>
+</span></span><span class=line><span class=cl>  <span class=na>tenant_id</span>                     = <span class=nb>data</span><span class=p>.</span><span class=nx>azurerm_client_config</span><span class=p>.</span><span class=nx>this</span><span class=p>.</span><span class=nx>tenant_id</span>
+</span></span><span class=line><span class=cl>  <span class=na>purge_protection_enabled</span>      = <span class=kc>false</span>
+</span></span><span class=line><span class=cl>  <span class=na>public_network_access_enabled</span> = <span class=kc>true</span><span class=c1> # so we can check the secrets get created ok.
+</span></span></span><span class=line><span class=cl><span class=c1></span>  <span class=na>sku_name</span>                      = <span class=s2>&#34;standard&#34;</span>
+</span></span><span class=line><span class=cl>  <span class=na>tags</span>                          = <span class=nb>var</span><span class=p>.</span><span class=nx>tags</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>  <span class=na>network_acls</span> = <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=na>ip_rules</span> = <span class=p>[</span><span class=nb>data</span><span class=p>.</span><span class=nx>http</span><span class=p>.</span><span class=nx>my_ip</span><span class=p>.</span><span class=nx>response_body</span><span class=p>]</span>
+</span></span><span class=line><span class=cl>  <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>  <span class=na>role_assignments</span> = <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=na>devops_principal_secrets_officer</span> = <span class=p>{</span>
+</span></span><span class=line><span class=cl>      <span class=na>role_definition_id_or_name</span> = <span class=s2>&#34;Key Vault Secrets Officer&#34;</span>
+</span></span><span class=line><span class=cl>      <span class=na>principal_id</span>               = <span class=nb>data</span><span class=p>.</span><span class=nx>azurerm_client_config</span><span class=p>.</span><span class=nx>this</span><span class=p>.</span><span class=nx>object_id</span>
+</span></span><span class=line><span class=cl>    <span class=p>},</span>
+</span></span><span class=line><span class=cl>  <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>  <span class=na>secrets</span> = <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=s2>&#34;my_first_secret&#34;</span> <span class=o>=</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>      <span class=na>name</span> = <span class=s2>&#34;my-1st-secret&#34;</span><span class=c1> # name only supports alphanumeric &amp; dashes
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>  <span class=p>}</span><span class=c1>
+</span></span></span><span class=line><span class=cl><span class=c1>
+</span></span></span><span class=line><span class=cl><span class=c1>  # secret values are marked as sensitive and thus can not be used in a for_each loop
+</span></span></span><span class=line><span class=cl><span class=c1></span>  <span class=na>secrets_value</span> = <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=s2>&#34;my_first_secret&#34;</span>  <span class=o>=</span> <span class=nx>random_password</span><span class=p>.</span><span class=nx>second_secret</span><span class=p>.</span><span class=nx>result</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>  <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>A few things to call out in the above:</p><ul><li>Secrets are specified as a map supplied to the <code>secrets</code> variable. A separate variable is used for <code>secrets_value</code> because it is marked as sensitive and therefore cannot be used in a &ldquo;for_each&rdquo; loop.</li><li>The map key (e.g. &ldquo;my_first_secret&rdquo;) needs to match between the secret & the secret_value.</li></ul><p>Since RBAC & the firewall is enabled, I&rsquo;m creating a role for the pipeline to be able to create the secret, and updating the IP restrictions based on the runner&rsquo;s IP. In an enterprise, this would typically be done using a self-hosted runner.</p><p>Here&rsquo;s a more complex block that illustrates AVM support for all secret parameters:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-terraform data-lang=terraform><span class=line><span class=cl>  <span class=na>secrets</span> = <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=s2>&#34;my_first_secret&#34;</span> <span class=o>=</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>      <span class=na>name</span> = <span class=s2>&#34;my-1st-secret&#34;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=s2>&#34;my_second_secret&#34;</span> <span class=o>=</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>      <span class=na>name</span> = <span class=s2>&#34;my-2nd-secret&#34;</span><span class=c1>
+</span></span></span><span class=line><span class=cl><span class=c1>      # optional parameters
+</span></span></span><span class=line><span class=cl><span class=c1></span>      <span class=na>description</span>     = <span class=s2>&#34;this is a very important secret that does important things&#34;</span>
+</span></span><span class=line><span class=cl>      <span class=na>content_type</span>    = <span class=s2>&#34;text/plain&#34;</span>
+</span></span><span class=line><span class=cl>      <span class=na>expiration_date</span> = <span class=s2>&#34;2024-08-01T00:00:00Z&#34;</span>
+</span></span><span class=line><span class=cl>      <span class=na>not_before_date</span> = <span class=s2>&#34;2024-01-01T14:30:00+12:00&#34;</span><span class=c1> # 14:30 on 1st Jan 2024 UTC+12
+</span></span></span><span class=line><span class=cl><span class=c1></span>      <span class=na>tags</span> =<span class=nb> merge</span><span class=p>(</span><span class=nb>var</span><span class=p>.</span><span class=nx>tags</span><span class=p>,</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=na>my_extra_tag_for_secret</span> = <span class=s2>&#34;top secret&#34;</span>
+</span></span><span class=line><span class=cl>      <span class=p>})</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>  <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>  <span class=na>secrets_value</span> = <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=s2>&#34;my_first_secret&#34;</span>  <span class=o>=</span> <span class=nx>random_password</span><span class=p>.</span><span class=nx>second_secret</span><span class=p>.</span><span class=nx>result</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=s2>&#34;my_second_secret&#34;</span> <span class=o>=</span> <span class=nx>random_password</span><span class=p>.</span><span class=nx>second_secret</span><span class=p>.</span><span class=nx>result</span>
+</span></span><span class=line><span class=cl>  <span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><h2 id=role-assignments-for-child-resources>Role assignments for child resources</h2><p>The pattern for shared interfaces continues down to child resource - again AVM specifies that child resources must implement the shared interfaces if they are supported by the resource. Here&rsquo;s a picture to explain:</p><p><img src=/p/2024/02/avm-resource-interfaces/role_assignment_on_secret_resource.png width=565 height=392 srcset="/p/2024/02/avm-resource-interfaces/role_assignment_on_secret_resource_hu68a6a4509dfadb887a5eb4ae4ae48ae6_23600_480x0_resize_box_3.png 480w, /p/2024/02/avm-resource-interfaces/role_assignment_on_secret_resource_hu68a6a4509dfadb887a5eb4ae4ae48ae6_23600_1024x0_resize_box_3.png 1024w" loading=lazy alt="illustrating the role assignment on a key vault secret child resource" class=gallery-image data-flex-grow=144 data-flex-basis=345px></p><h3 id=avm-secrets-with-role-assignments>AVM: secrets with role assignments</h3><p>Here is the secret block showing a role assignment against an individual secret:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-terraform data-lang=terraform><span class=line><span class=cl>  <span class=na>secrets</span> = <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=s2>&#34;my_first_secret&#34;</span> <span class=o>=</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>      <span class=na>name</span> = <span class=s2>&#34;my-1st-secret&#34;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=s2>&#34;my_second_secret&#34;</span> <span class=o>=</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>      <span class=na>name</span> = <span class=s2>&#34;my-2nd-secret&#34;</span><span class=c1>
+</span></span></span><span class=line><span class=cl><span class=c1>      # illustrating a role assignment for a specific secret
+</span></span></span><span class=line><span class=cl><span class=c1></span>      <span class=na>role_assignments</span> = <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=na>my_test_group</span> = <span class=p>{</span>
+</span></span><span class=line><span class=cl>          <span class=na>role_definition_id_or_name</span> = <span class=s2>&#34;Key Vault Secrets User&#34;</span><span class=c1>
+</span></span></span><span class=line><span class=cl><span class=c1>          # make sure you use a principal that exists in Entra ID!
+</span></span></span><span class=line><span class=cl><span class=c1></span>          <span class=na>principal_id</span>               = <span class=s2>&#34;8391afd1-838e-8097-aefd-6e6e9841959f&#34;</span> 
+</span></span><span class=line><span class=cl>        <span class=p>}</span>
+</span></span><span class=line><span class=cl>      <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>  <span class=p>}</span><span class=c1>
+</span></span></span><span class=line><span class=cl><span class=c1>
+</span></span></span><span class=line><span class=cl><span class=c1>  # secret values are marked as sensitive and thus can not be used in a for_each loop
+</span></span></span><span class=line><span class=cl><span class=c1></span>  <span class=na>secrets_value</span> = <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=s2>&#34;my_first_secret&#34;</span>  <span class=o>=</span> <span class=nx>random_password</span><span class=p>.</span><span class=nx>second_secret</span><span class=p>.</span><span class=nx>result</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=s2>&#34;my_second_secret&#34;</span> <span class=o>=</span> <span class=nx>random_password</span><span class=p>.</span><span class=nx>second_secret</span><span class=p>.</span><span class=nx>result</span>
+</span></span><span class=line><span class=cl>  <span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>This same approach is repeated for other resources, for instance creating role assignments against a storage container.</p><h2 id=find-the-code-on-github>Find the code on GitHub</h2><p>You can find the role assignment & secret examples on my GitHub:</p><p><a class=link href=https://github.com/kewalaka/terraform-avm-keyvault-examples target=_blank rel=noopener>https://github.com/kewalaka/terraform-avm-keyvault-examples</a></p><p>Examples for Private endpoint & diagnostic settings are available in the end to end tests for the KeyVault Module:</p><p><a class=link href=https://github.com/Azure/terraform-azurerm-avm-res-keyvault-vault/tree/main/examples target=_blank rel=noopener>https://github.com/Azure/terraform-azurerm-avm-res-keyvault-vault/tree/main/examples</a></p></section><footer class=article-footer><section class=article-tags><a href=/tags/terraform/>terraform</a>
+<a href=/tags/avm/>avm</a></section><section class=article-copyright><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="12" r="9"/><path d="M14.5 9a3.5 4 0 100 6"/></svg>
+<span>Licensed under CC BY-NC-SA 4.0, unless noted by credits.</span></section></footer></article><aside class=related-content--wrapper><h2 class=section-title>Related content</h2><div class=related-content><div class="flex article-list--tile"><article class=has-image><a href=/p/2024/02/write-an-avm-module/><div class=article-image><img src=/p/2024/02/write-an-avm-module/_hu569cbc7674f36d790c33c17d87477a75_58340_f378871f5b81a1b9249deac5d819e095.png width=250 height=150 loading=lazy alt="Featured image of post How to write your first AVM resource module" data-key=2024/02/write-an-avm-module data-hash="md5-Ecfh7J+IXvtmRGmycljN1A=="></div><div class=article-details><h2 class=article-title>How to write your first AVM resource module</h2></div></a></article><article class=has-image><a href=/p/2023/09/azure-verified-modules/><div class=article-image><img src=/p/2023/09/azure-verified-modules/avm.3e6891a620edf4f67590a3c746bd8a2c_hue3b3e79cae567de3ff62a3d95e3d5aa2_17051_250x150_fill_q75_box_smart1.jpg width=250 height=150 loading=lazy alt="Featured image of post Azure Verified Modules" data-key=2023/09/azure-verified-modules data-hash="md5-PmiRpiDt9PZ1kKPHRr2KLA=="></div><div class=article-details><h2 class=article-title>Azure Verified Modules</h2></div></a></article></div></div></aside><div id=cusdis_thread data-host=https://cusdis.com data-app-id=79052d37-f39f-4b03-b115-5e3b853c09cd data-page-id=687d98ee22163d5ad166b8206f330a30 data-page-url=https://blog.kewalaka.nz/p/2024/02/avm-resource-interfaces/ data-page-title="AVM module interfaces & their children"></div><script async defer src=https://cusdis.com/js/cusdis.es.js></script><script>function setCusdisTheme(e){let t=document.querySelector("#cusdis_thread iframe");t&&window.CUSDIS.setTheme(e)}window.addEventListener("onColorSchemeChange",e=>{setCusdisTheme(e.detail)})</script><footer class=site-footer><section class=copyright>&copy;
+2023 -
+2024 The blog of Kewalaka</section><section class=powerby>Built with <a href=https://gohugo.io/ target=_blank rel=noopener>Hugo</a><br>Theme <b><a href=https://github.com/CaiJimmy/hugo-theme-stack target=_blank rel=noopener data-version=3.21.0>Stack</a></b> designed by <a href=https://jimmycai.com target=_blank rel=noopener>Jimmy</a></section></footer><div class=pswp tabindex=-1 role=dialog aria-hidden=true><div class=pswp__bg></div><div class=pswp__scroll-wrap><div class=pswp__container><div class=pswp__item></div><div class=pswp__item></div><div class=pswp__item></div></div><div class="pswp__ui pswp__ui--hidden"><div class=pswp__top-bar><div class=pswp__counter></div><button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+<button class="pswp__button pswp__button--share" title=Share></button>
+<button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+<button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button><div class=pswp__preloader><div class=pswp__preloader__icn><div class=pswp__preloader__cut><div class=pswp__preloader__donut></div></div></div></div></div><div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap"><div class=pswp__share-tooltip></div></div><button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+</button>
+<button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)"></button><div class=pswp__caption><div class=pswp__caption__center></div></div></div></div></div><script src=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo=" crossorigin=anonymous defer></script><script src=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU=" crossorigin=anonymous defer></script><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css crossorigin=anonymous><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css crossorigin=anonymous></main></div><script src=https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z+KMkF24hUW8WePSA9HM=" crossorigin=anonymous></script><script type=text/javascript src=/ts/main.js defer></script><script>(function(){const e=document.createElement("link");e.href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap",e.type="text/css",e.rel="stylesheet",document.head.appendChild(e)})()</script></body></html>

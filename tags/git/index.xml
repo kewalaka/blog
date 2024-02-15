@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>git on The blog of Kewalaka</title><link>https://blog.kewalaka.nz/tags/git/</link><description>Recent content in git on The blog of Kewalaka</description><generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Mon, 15 May 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://blog.kewalaka.nz/tags/git/index.xml" rel="self" type="application/rss+xml"/><item><title>Useful git config settings</title><link>https://blog.kewalaka.nz/p/2023/05/git-config-starter/</link><pubDate>Mon, 15 May 2023 00:00:00 +0000</pubDate><guid>https://blog.kewalaka.nz/p/2023/05/git-config-starter/</guid><description>&lt;img src="https://blog.kewalaka.nz/p/2023/05/git-config-starter/img_git-config-featured-4001369487.png" alt="Featured image of post Useful git config settings" />&lt;p>This is a summary of useful git config commands. Git settings exist in a hierachy, for Windows the default locations are:&lt;/p>
+&lt;ul>
+&lt;li>System wide - %programfiles%\Git\etc\gitconfig&lt;/li>
+&lt;li>Global - %userprofile%.gitconfig&lt;/li>
+&lt;li>Local to the repository - .git/config&lt;/li>
+&lt;/ul>
+&lt;h2 id="common-global-properties">Common global properties&lt;/h2>
+&lt;p>These ones are recommended to be set after Git has been installed:&lt;/p>
+&lt;ul>
+&lt;li>&lt;code>git config --global user.name &amp;quot;your name&amp;quot;&lt;/code>&lt;/li>
+&lt;li>&lt;code>git config --global user.email you@example.com&lt;/code>&lt;/li>
+&lt;/ul>
+&lt;h3 id="overriding-properties">Overriding properties&lt;/h3>
+&lt;p>Settings lower in the hierachy override, so for example, if you need to use a different user name and email for a particular repository:&lt;/p>
+&lt;ul>
+&lt;li>&lt;code>git config user.name &amp;quot;your name&amp;quot;&lt;/code>&lt;/li>
+&lt;li>&lt;code>git config user.email you@example.com&lt;/code>&lt;/li>
+&lt;/ul>
+&lt;p>Run this in the git repository you wish to modify. Local is implied if another scope such as &lt;code>--global&lt;/code> is not specified.&lt;/p>
+&lt;h2 id="listing-settings">Listing settings&lt;/h2>
+&lt;ul>
+&lt;li>List global settings: &lt;code>git config --global --list&lt;/code>&lt;/li>
+&lt;li>List &lt;strong>only&lt;/strong> local settings: &lt;code>git config --local --list&lt;/code>&lt;/li>
+&lt;li>Show where settings apply from: &lt;code>git config --list --show-origin&lt;/code>&lt;/li>
+&lt;/ul>
+&lt;h2 id="useful-settings">Useful settings&lt;/h2>
+&lt;ul>
+&lt;li>&lt;code>git config --global init.defaultbranch main&lt;/code> will set the default branch to any new repository to &amp;lsquo;main&amp;rsquo;&lt;/li>
+&lt;li>&lt;code>git config --global user.signingkey &amp;lt;your key&amp;gt;&lt;/code> allows you to set your GPG key for signing commits&lt;/li>
+&lt;li>&lt;code>git config --global credential.msauthflow system&lt;/code> will set the git credential manager to use your system default browser (otherwise it can use IE)&lt;/li>
+&lt;/ul>
+&lt;h2 id="removing-settings">Removing settings&lt;/h2>
+&lt;p>This is done using &lt;code>--unset&lt;/code> or &lt;code>--unset-all&lt;/code> if you want to remove all settings with a particular property, e.g.:&lt;/p>
+&lt;ul>
+&lt;li>&lt;code>git config --global --unset user.signingkey&lt;/code>&lt;/li>
+&lt;/ul>
+&lt;p>An example of removing a local config setting with a specific value (user name: &amp;ldquo;Mr X&amp;rdquo;):&lt;/p>
+&lt;ul>
+&lt;li>&lt;code>git config --unset user.name &amp;quot;Mr X&amp;quot;&lt;/code>&lt;/li>
+&lt;/ul>
+&lt;h2 id="git-credential-manager">Git Credential Manager&lt;/h2>
+&lt;p>If you&amp;rsquo;re using Git for Windows, you automatically have &lt;a class="link" href="https://github.com/git-ecosystem/git-credential-manager" target="_blank" rel="noopener"
+>git credential manager&lt;/a> installed so you don&amp;rsquo;t have to continuously authenticate.&lt;/p>
+&lt;p>This adds a new global setting &lt;code>credential.helper=manager&lt;/code>&lt;/p></description></item></channel></rss>

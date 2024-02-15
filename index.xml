@@ -1,0 +1,1352 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>The blog of Kewalaka</title><link>https://blog.kewalaka.nz/</link><description>Recent content on The blog of Kewalaka</description><generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Tue, 06 Feb 2024 10:56:47 +1300</lastBuildDate><atom:link href="https://blog.kewalaka.nz/index.xml" rel="self" type="application/rss+xml"/><item><title>AVM module interfaces &amp; their children</title><link>https://blog.kewalaka.nz/p/2024/02/avm-resource-interfaces/</link><pubDate>Tue, 06 Feb 2024 10:56:47 +1300</pubDate><guid>https://blog.kewalaka.nz/p/2024/02/avm-resource-interfaces/</guid><description>&lt;img src="https://blog.kewalaka.nz/p/2024/02/avm-resource-interfaces/i_am_your_parent.png" alt="Featured image of post AVM module interfaces &amp; their children" />&lt;p>Regardless of whether you are writing AVM modules, or simply using them, it is useful to understand the &amp;ldquo;shared interfaces&amp;rdquo;, as described on the &lt;a class="link" href="https://azure.github.io/Azure-Verified-Modules/specs/shared/interfaces/" target="_blank" rel="noopener"
+>AVM website&lt;/a>.&lt;/p>
+&lt;p>Each module must implement the following interfaces if they are supported by the underlying resource:&lt;/p>
+&lt;p>&lt;img src="https://blog.kewalaka.nz/p/2024/02/avm-resource-interfaces/module_shared_interfaces.png"
+width="565"
+height="814"
+srcset="https://blog.kewalaka.nz/p/2024/02/avm-resource-interfaces/module_shared_interfaces_hu52a363558a5470812461d3523d99598f_76418_480x0_resize_box_3.png 480w, https://blog.kewalaka.nz/p/2024/02/avm-resource-interfaces/module_shared_interfaces_hu52a363558a5470812461d3523d99598f_76418_1024x0_resize_box_3.png 1024w"
+loading="lazy"
+alt="list of shared interfaces in a module"
+class="gallery-image"
+data-flex-grow="69"
+data-flex-basis="166px"
+>&lt;/p>
+&lt;p>What does this mean as a module consumer? It means there should be a module input available for each of these:&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;span class="lnt">18
+&lt;/span>&lt;span class="lnt">19
+&lt;/span>&lt;span class="lnt">20
+&lt;/span>&lt;span class="lnt">21
+&lt;/span>&lt;span class="lnt">22
+&lt;/span>&lt;span class="lnt">23
+&lt;/span>&lt;span class="lnt">24
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-terraform" data-lang="terraform">&lt;span class="line">&lt;span class="cl">&lt;span class="kr">module&lt;/span> &lt;span class="s2">&amp;#34;keyvault&amp;#34;&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="na">source&lt;/span> = &lt;span class="s2">&amp;#34;Azure/avm-res-keyvault-vault/azurerm&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="na">version&lt;/span> = &lt;span class="s2">&amp;#34;0.5.1&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="na">name&lt;/span> = &lt;span class="nb">module&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">naming&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">key_vault&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">name_unique&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="na">location&lt;/span> = &lt;span class="nx">azurerm_resource_group&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">this&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">location&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="na">resource_group_name&lt;/span> = &lt;span class="nx">azurerm_resource_group&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">this&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">name&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="na">tenant_id&lt;/span> = &lt;span class="nb">data&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">azurerm_client_config&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">this&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">tenant_id&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="na">sku_name&lt;/span> = &lt;span class="s2">&amp;#34;standard&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="na">role_assignments&lt;/span> = &lt;span class="p">{&lt;/span>&lt;span class="c1">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"> # define the role assignments
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="na">lock&lt;/span> = &lt;span class="p">{&lt;/span>&lt;span class="c1">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"> # define the resource locks
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="na">private_endpoints&lt;/span> = &lt;span class="p">{&lt;/span>&lt;span class="c1">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"> # define the private endpoints
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="na">diagnostic_settings&lt;/span> = &lt;span class="p">{&lt;/span>&lt;span class="c1">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"> # define the diagnostic settings
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="p">}&lt;/span>&lt;span class="c1">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"> // etc
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="na">tags&lt;/span> = &lt;span class="nb">var&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">tags&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>Whether you use them, is optional. Lets dive into some examples!&lt;/p>
+&lt;h2 id="role-assignments-example">Role Assignments example&lt;/h2>
+&lt;p>We&amp;rsquo;ll make a couple role assignments for a Key Vault, one for a pretend app, and another for the principal running the devops pipeline (say, to let the pipeline update secrets).&lt;/p>
+&lt;p>Here&amp;rsquo;s how you might be tempted to write this:&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;span class="lnt">18
+&lt;/span>&lt;span class="lnt">19
+&lt;/span>&lt;span class="lnt">20
+&lt;/span>&lt;span class="lnt">21
+&lt;/span>&lt;span class="lnt">22
+&lt;/span>&lt;span class="lnt">23
+&lt;/span>&lt;span class="lnt">24
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-terraform" data-lang="terraform">&lt;span class="line">&lt;span class="cl">&lt;span class="kr">module&lt;/span> &lt;span class="s2">&amp;#34;keyvault&amp;#34;&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="na">source&lt;/span> = &lt;span class="s2">&amp;#34;Azure/avm-res-keyvault-vault/azurerm&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="na">version&lt;/span> = &lt;span class="s2">&amp;#34;0.5.1&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="na">name&lt;/span> = &lt;span class="nx">local&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">keyvault_name&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="na">enable_telemetry&lt;/span> = &lt;span class="kc">false&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="na">resource_group_name&lt;/span> = &lt;span class="nb">data&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">azurerm_resource_group&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">parent&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">name&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="na">location&lt;/span> = &lt;span class="nx">local&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">location&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="na">tenant_id&lt;/span> = &lt;span class="nb">data&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">azurerm_client_config&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">this&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">tenant_id&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="na">purge_protection_enabled&lt;/span> = &lt;span class="kc">false&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="na">sku_name&lt;/span> = &lt;span class="s2">&amp;#34;standard&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="na">tags&lt;/span> = &lt;span class="nb">var&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">tags&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kr">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kr">resource&lt;/span> &lt;span class="s2">&amp;#34;azurerm_role_assignment&amp;#34;&lt;/span> &lt;span class="s2">&amp;#34;my_app_secrets_user&amp;#34;&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="na">scope&lt;/span> = &lt;span class="nb">module&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">keyvault&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">resource&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">id&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="na">role_definition_name&lt;/span> = &lt;span class="s2">&amp;#34;Key Vault Secrets User&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="na">principal_id&lt;/span> = &lt;span class="s2">&amp;#34;a2b9c8d7-1e3f-42c5-b6a7-c8e9l0d1e2a3&amp;#34;&lt;/span>&lt;span class="c1"> # this is a made up ID!
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kr">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kr">resource&lt;/span> &lt;span class="s2">&amp;#34;azurerm_role_assignment&amp;#34;&lt;/span> &lt;span class="s2">&amp;#34;devops_principal_secrets_officer&amp;#34;&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="na">scope&lt;/span> = &lt;span class="nb">module&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">keyvault&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">resource&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">id&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="na">role_definition_name&lt;/span> = &lt;span class="s2">&amp;#34;Key Vault Secrets Officer&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="na">principal_id&lt;/span> = &lt;span class="nb">data&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">azurerm_client_config&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">example&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">object_id&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h3 id="avm-key-vault-role-assignment">AVM: Key vault role assignment&lt;/h3>
+&lt;p>This is perfectly valid, and it will work, but in AVM you can provide the role assignment directly to the module, like this:&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;span class="lnt">18
+&lt;/span>&lt;span class="lnt">19
+&lt;/span>&lt;span class="lnt">20
+&lt;/span>&lt;span class="lnt">21
+&lt;/span>&lt;span class="lnt">22
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-terraform" data-lang="terraform">&lt;span class="line">&lt;span class="cl">&lt;span class="kr">module&lt;/span> &lt;span class="s2">&amp;#34;keyvault&amp;#34;&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="na">source&lt;/span> = &lt;span class="s2">&amp;#34;Azure/avm-res-keyvault-vault/azurerm&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="na">version&lt;/span> = &lt;span class="s2">&amp;#34;0.5.1&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="na">name&lt;/span> = &lt;span class="nx">local&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">keyvault_name&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="na">resource_group_name&lt;/span> = &lt;span class="nb">data&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">azurerm_resource_group&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">parent&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">name&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="na">location&lt;/span> = &lt;span class="nx">local&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">location&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="na">tenant_id&lt;/span> = &lt;span class="nb">data&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">azurerm_client_config&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">this&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">tenant_id&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="na">purge_protection_enabled&lt;/span> = &lt;span class="kc">false&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="na">sku_name&lt;/span> = &lt;span class="s2">&amp;#34;standard&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="na">tags&lt;/span> = &lt;span class="nb">var&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">tags&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="na">role_assignments&lt;/span> = &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="na">my_app_secrets_user&lt;/span> = &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="na">role_definition_id_or_name&lt;/span> = &lt;span class="s2">&amp;#34;Key Vault Secrets User&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="na">principal_id&lt;/span> = &lt;span class="s2">&amp;#34;a2b9c8d7-1e3f-42c5-d6i7-c8k9l0a1b2e3&amp;#34;&lt;/span>&lt;span class="c1"> # this is a made up ID!
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="p">},&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="na">devops_principal_secrets_officer&lt;/span> = &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="na">role_definition_id_or_name&lt;/span> = &lt;span class="s2">&amp;#34;Key Vault Secrets Officer&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="na">principal_id&lt;/span> = &lt;span class="nb">data&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">azurerm_client_config&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">this&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">object_id&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">},&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>The name of the keys (&amp;ldquo;my_app_secrets_user&amp;rdquo; and &amp;ldquo;devops_principal_secrets_officer&amp;rdquo;) is arbitrary but should be statically named. This relates to the correct use of &amp;ldquo;for each&amp;rdquo;, which is explained in &lt;a class="link" href="https://www.youtube.com/watch?v=Q4ANHRUsVKA" target="_blank" rel="noopener"
+>this video from Matt White&amp;rsquo;s YouTube channel&lt;/a>.&lt;/p>
+&lt;h2 id="private-endpoint-example">Private endpoint example&lt;/h2>
+&lt;p>The way to specify a private endpoint is similar, you can see it in full in one of the end-to-end tests in the &lt;a class="link" href="https://github.com/Azure/terraform-azurerm-avm-res-keyvault-vault/tree/main/examples/private-endpoint" target="_blank" rel="noopener"
+>official KeyVault repository&lt;/a>.&lt;/p>
+&lt;p>Here is the relevant snippet for illustration:&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-terraform" data-lang="terraform">&lt;span class="line">&lt;span class="cl">&lt;span class="kr">module&lt;/span> &lt;span class="s2">&amp;#34;keyvault&amp;#34;&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="na">source&lt;/span> = &lt;span class="s2">&amp;#34;Azure/avm-res-keyvault-vault/azurerm&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="na">version&lt;/span> = &lt;span class="s2">&amp;#34;0.5.1&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="na">name&lt;/span> = &lt;span class="nb">module&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">naming&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">key_vault&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">name_unique&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="na">location&lt;/span> = &lt;span class="nx">azurerm_resource_group&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">this&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">location&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="na">resource_group_name&lt;/span> = &lt;span class="nx">azurerm_resource_group&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">this&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">name&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="na">tenant_id&lt;/span> = &lt;span class="nb">data&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">azurerm_client_config&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">this&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">tenant_id&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="na">public_network_access_enabled&lt;/span> = &lt;span class="kc">false&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="na">private_endpoints&lt;/span> = &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="na">primary&lt;/span> = &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="na">private_dns_zone_resource_ids&lt;/span> = &lt;span class="p">[&lt;/span>&lt;span class="nx">azurerm_private_dns_zone&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">this&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">id&lt;/span>&lt;span class="p">]&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="na">subnet_resource_id&lt;/span> = &lt;span class="nx">azurerm_subnet&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">this&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">id&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>The important point, is the &lt;strong>same interface is shared between resources&lt;/strong>, which means if you know how to add a role assignment or a private endpoint to a Key Vault, it is the same for a Storage Account, Database etc.&lt;/p>
+&lt;h2 id="wait-this-looks-like-carml">Wait, this looks like CARML?&lt;/h2>
+&lt;p>Seasoned followers of the Bicep will likely recognise this approach from the &lt;a class="link" href="https://github.com/Azure/ResourceModules" target="_blank" rel="noopener"
+>CARML library&lt;/a>&lt;/p>
+&lt;p>That is no accident! AVM seeks to align the experience between Bicep and Terraform resource modules, whilst acknowledging recommended practices from each language.&lt;/p>
+&lt;h2 id="child-resources">Child resources&lt;/h2>
+&lt;p>The scoping of child resources with the parent module is another example where the Terraform and Bicep approach is united. Below illustrates what the looks like for Key Vault:&lt;/p>
+&lt;p>&lt;img src="https://blog.kewalaka.nz/p/2024/02/avm-resource-interfaces/keyvault_child_resources.png"
+width="565"
+height="470"
+srcset="https://blog.kewalaka.nz/p/2024/02/avm-resource-interfaces/keyvault_child_resources_hu7ca81c7851e1d4ed04763ba67c8e79a9_25498_480x0_resize_box_3.png 480w, https://blog.kewalaka.nz/p/2024/02/avm-resource-interfaces/keyvault_child_resources_hu7ca81c7851e1d4ed04763ba67c8e79a9_25498_1024x0_resize_box_3.png 1024w"
+loading="lazy"
+alt="Child resources within a KeyVault"
+class="gallery-image"
+data-flex-grow="120"
+data-flex-basis="288px"
+>&lt;/p>
+&lt;h3 id="avm-create-a-secret">AVM: create a secret&lt;/h3>
+&lt;p>As an example, secrets can be defined like this (line 29 onwards):&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;span class="lnt">18
+&lt;/span>&lt;span class="lnt">19
+&lt;/span>&lt;span class="lnt">20
+&lt;/span>&lt;span class="lnt">21
+&lt;/span>&lt;span class="lnt">22
+&lt;/span>&lt;span class="lnt">23
+&lt;/span>&lt;span class="lnt">24
+&lt;/span>&lt;span class="lnt">25
+&lt;/span>&lt;span class="lnt">26
+&lt;/span>&lt;span class="lnt">27
+&lt;/span>&lt;span class="lnt">28
+&lt;/span>&lt;span class="lnt">29
+&lt;/span>&lt;span class="lnt">30
+&lt;/span>&lt;span class="lnt">31
+&lt;/span>&lt;span class="lnt">32
+&lt;/span>&lt;span class="lnt">33
+&lt;/span>&lt;span class="lnt">34
+&lt;/span>&lt;span class="lnt">35
+&lt;/span>&lt;span class="lnt">36
+&lt;/span>&lt;span class="lnt">37
+&lt;/span>&lt;span class="lnt">38
+&lt;/span>&lt;span class="lnt">39
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-terraform" data-lang="terraform">&lt;span class="line">&lt;span class="cl">&lt;span class="kr">data&lt;/span> &lt;span class="s2">&amp;#34;http&amp;#34;&lt;/span> &lt;span class="s2">&amp;#34;my_ip&amp;#34;&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="na">url&lt;/span> = &lt;span class="s2">&amp;#34;https://ifconfig.me/ip&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kr">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kr">module&lt;/span> &lt;span class="s2">&amp;#34;keyvault&amp;#34;&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="na">source&lt;/span> = &lt;span class="s2">&amp;#34;Azure/avm-res-keyvault-vault/azurerm&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="na">version&lt;/span> = &lt;span class="s2">&amp;#34;0.5.1&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="na">name&lt;/span> = &lt;span class="nb">module&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">naming&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">key_vault&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">name_unique&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="na">enable_telemetry&lt;/span> = &lt;span class="nb">var&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">enable_telemetry&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="na">location&lt;/span> = &lt;span class="nx">azurerm_resource_group&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">this&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">location&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="na">resource_group_name&lt;/span> = &lt;span class="nx">azurerm_resource_group&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">this&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">name&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="na">tenant_id&lt;/span> = &lt;span class="nb">data&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">azurerm_client_config&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">this&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">tenant_id&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="na">purge_protection_enabled&lt;/span> = &lt;span class="kc">false&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="na">public_network_access_enabled&lt;/span> = &lt;span class="kc">true&lt;/span>&lt;span class="c1"> # so we can check the secrets get created ok.
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="na">sku_name&lt;/span> = &lt;span class="s2">&amp;#34;standard&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="na">tags&lt;/span> = &lt;span class="nb">var&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">tags&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="na">network_acls&lt;/span> = &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="na">ip_rules&lt;/span> = &lt;span class="p">[&lt;/span>&lt;span class="nb">data&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">http&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">my_ip&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">response_body&lt;/span>&lt;span class="p">]&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="na">role_assignments&lt;/span> = &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="na">devops_principal_secrets_officer&lt;/span> = &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="na">role_definition_id_or_name&lt;/span> = &lt;span class="s2">&amp;#34;Key Vault Secrets Officer&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="na">principal_id&lt;/span> = &lt;span class="nb">data&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">azurerm_client_config&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">this&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">object_id&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">},&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="na">secrets&lt;/span> = &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s2">&amp;#34;my_first_secret&amp;#34;&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="na">name&lt;/span> = &lt;span class="s2">&amp;#34;my-1st-secret&amp;#34;&lt;/span>&lt;span class="c1"> # name only supports alphanumeric &amp;amp; dashes
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>&lt;span class="c1">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"> # secret values are marked as sensitive and thus can not be used in a for_each loop
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="na">secrets_value&lt;/span> = &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s2">&amp;#34;my_first_secret&amp;#34;&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="nx">random_password&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">second_secret&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">result&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>A few things to call out in the above:&lt;/p>
+&lt;ul>
+&lt;li>Secrets are specified as a map supplied to the &lt;code>secrets&lt;/code> variable. A separate variable is used for &lt;code>secrets_value&lt;/code> because it is marked as sensitive and therefore cannot be used in a &amp;ldquo;for_each&amp;rdquo; loop.&lt;/li>
+&lt;li>The map key (e.g. &amp;ldquo;my_first_secret&amp;rdquo;) needs to match between the secret &amp;amp; the secret_value.&lt;/li>
+&lt;/ul>
+&lt;p>Since RBAC &amp;amp; the firewall is enabled, I&amp;rsquo;m creating a role for the pipeline to be able to create the secret, and updating the IP restrictions based on the runner&amp;rsquo;s IP. In an enterprise, this would typically be done using a self-hosted runner.&lt;/p>
+&lt;p>Here&amp;rsquo;s a more complex block that illustrates AVM support for all secret parameters:&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;span class="lnt">18
+&lt;/span>&lt;span class="lnt">19
+&lt;/span>&lt;span class="lnt">20
+&lt;/span>&lt;span class="lnt">21
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-terraform" data-lang="terraform">&lt;span class="line">&lt;span class="cl"> &lt;span class="na">secrets&lt;/span> = &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s2">&amp;#34;my_first_secret&amp;#34;&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="na">name&lt;/span> = &lt;span class="s2">&amp;#34;my-1st-secret&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s2">&amp;#34;my_second_secret&amp;#34;&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="na">name&lt;/span> = &lt;span class="s2">&amp;#34;my-2nd-secret&amp;#34;&lt;/span>&lt;span class="c1">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"> # optional parameters
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="na">description&lt;/span> = &lt;span class="s2">&amp;#34;this is a very important secret that does important things&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="na">content_type&lt;/span> = &lt;span class="s2">&amp;#34;text/plain&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="na">expiration_date&lt;/span> = &lt;span class="s2">&amp;#34;2024-08-01T00:00:00Z&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="na">not_before_date&lt;/span> = &lt;span class="s2">&amp;#34;2024-01-01T14:30:00+12:00&amp;#34;&lt;/span>&lt;span class="c1"> # 14:30 on 1st Jan 2024 UTC+12
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="na">tags&lt;/span> =&lt;span class="nb"> merge&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nb">var&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">tags&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="na">my_extra_tag_for_secret&lt;/span> = &lt;span class="s2">&amp;#34;top secret&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">})&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="na">secrets_value&lt;/span> = &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s2">&amp;#34;my_first_secret&amp;#34;&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="nx">random_password&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">second_secret&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">result&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s2">&amp;#34;my_second_secret&amp;#34;&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="nx">random_password&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">second_secret&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">result&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h2 id="role-assignments-for-child-resources">Role assignments for child resources&lt;/h2>
+&lt;p>The pattern for shared interfaces continues down to child resource - again AVM specifies that child resources must implement the shared interfaces if they are supported by the resource. Here&amp;rsquo;s a picture to explain:&lt;/p>
+&lt;p>&lt;img src="https://blog.kewalaka.nz/p/2024/02/avm-resource-interfaces/role_assignment_on_secret_resource.png"
+width="565"
+height="392"
+srcset="https://blog.kewalaka.nz/p/2024/02/avm-resource-interfaces/role_assignment_on_secret_resource_hu68a6a4509dfadb887a5eb4ae4ae48ae6_23600_480x0_resize_box_3.png 480w, https://blog.kewalaka.nz/p/2024/02/avm-resource-interfaces/role_assignment_on_secret_resource_hu68a6a4509dfadb887a5eb4ae4ae48ae6_23600_1024x0_resize_box_3.png 1024w"
+loading="lazy"
+alt="illustrating the role assignment on a key vault secret child resource"
+class="gallery-image"
+data-flex-grow="144"
+data-flex-basis="345px"
+>&lt;/p>
+&lt;h3 id="avm-secrets-with-role-assignments">AVM: secrets with role assignments&lt;/h3>
+&lt;p>Here is the secret block showing a role assignment against an individual secret:&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;span class="lnt">18
+&lt;/span>&lt;span class="lnt">19
+&lt;/span>&lt;span class="lnt">20
+&lt;/span>&lt;span class="lnt">21
+&lt;/span>&lt;span class="lnt">22
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-terraform" data-lang="terraform">&lt;span class="line">&lt;span class="cl"> &lt;span class="na">secrets&lt;/span> = &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s2">&amp;#34;my_first_secret&amp;#34;&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="na">name&lt;/span> = &lt;span class="s2">&amp;#34;my-1st-secret&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s2">&amp;#34;my_second_secret&amp;#34;&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="na">name&lt;/span> = &lt;span class="s2">&amp;#34;my-2nd-secret&amp;#34;&lt;/span>&lt;span class="c1">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"> # illustrating a role assignment for a specific secret
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="na">role_assignments&lt;/span> = &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="na">my_test_group&lt;/span> = &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="na">role_definition_id_or_name&lt;/span> = &lt;span class="s2">&amp;#34;Key Vault Secrets User&amp;#34;&lt;/span>&lt;span class="c1">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"> # make sure you use a principal that exists in Entra ID!
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="na">principal_id&lt;/span> = &lt;span class="s2">&amp;#34;8391afd1-838e-8097-aefd-6e6e9841959f&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>&lt;span class="c1">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"> # secret values are marked as sensitive and thus can not be used in a for_each loop
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="na">secrets_value&lt;/span> = &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s2">&amp;#34;my_first_secret&amp;#34;&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="nx">random_password&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">second_secret&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">result&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s2">&amp;#34;my_second_secret&amp;#34;&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="nx">random_password&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">second_secret&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">result&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>This same approach is repeated for other resources, for instance creating role assignments against a storage container.&lt;/p>
+&lt;h2 id="find-the-code-on-github">Find the code on GitHub&lt;/h2>
+&lt;p>You can find the role assignment &amp;amp; secret examples on my GitHub:&lt;/p>
+&lt;p>&lt;a class="link" href="https://github.com/kewalaka/terraform-avm-keyvault-examples" target="_blank" rel="noopener"
+>https://github.com/kewalaka/terraform-avm-keyvault-examples&lt;/a>&lt;/p>
+&lt;p>Examples for Private endpoint &amp;amp; diagnostic settings are available in the end to end tests for the KeyVault Module:&lt;/p>
+&lt;p>&lt;a class="link" href="https://github.com/Azure/terraform-azurerm-avm-res-keyvault-vault/tree/main/examples" target="_blank" rel="noopener"
+>https://github.com/Azure/terraform-azurerm-avm-res-keyvault-vault/tree/main/examples&lt;/a>&lt;/p></description></item><item><title>How to write your first AVM resource module</title><link>https://blog.kewalaka.nz/p/2024/02/write-an-avm-module/</link><pubDate>Thu, 01 Feb 2024 19:08:03 +1300</pubDate><guid>https://blog.kewalaka.nz/p/2024/02/write-an-avm-module/</guid><description>&lt;img src="https://blog.kewalaka.nz/p/2024/02/write-an-avm-module/Azure-Verified-Modules-2783756541.png" alt="Featured image of post How to write your first AVM resource module" />&lt;p>This is a post about writing your first &lt;a class="link" href="https://aka.ms/AVM" target="_blank" rel="noopener"
+>Azure Verified Modules&lt;/a>, for those interested in the background about AVM, check out this recent &lt;a class="link" href="https://www.youtube.com/watch?v=JbIMrJKW5N0" target="_blank" rel="noopener"
+>intro on YouTube&lt;/a>.&lt;/p>
+&lt;p>This is recommended as a learning exercise to familiarise yourself with AVM. I strongly encourage contributing to the official resource modules Microsoft is in the process of building.&lt;/p>
+&lt;p>We&amp;rsquo;re going to focus on writing a resource module:&lt;/p>
+&lt;p>&lt;img src="https://blog.kewalaka.nz/p/2024/02/write-an-avm-module/avm-resources-and-patterns.png"
+width="701"
+height="587"
+srcset="https://blog.kewalaka.nz/p/2024/02/write-an-avm-module/avm-resources-and-patterns_hua3d7c87c48fb66b48e3aa1ad50c8bcb3_68275_480x0_resize_box_3.png 480w, https://blog.kewalaka.nz/p/2024/02/write-an-avm-module/avm-resources-and-patterns_hua3d7c87c48fb66b48e3aa1ad50c8bcb3_68275_1024x0_resize_box_3.png 1024w"
+loading="lazy"
+alt="illustration of AVM resources and patterns"
+class="gallery-image"
+data-flex-grow="119"
+data-flex-basis="286px"
+>&lt;/p>
+&lt;p>It is recommended to use a unix-based system for writing AVM modules (e.g. either WSL2, a Mac, a Linux variant, or GitHub codespaces).&lt;/p>
+&lt;p>I assume a familiarity with git, including how to clone and create feature branches.&lt;/p>
+&lt;p>The process is going to be:&lt;/p>
+&lt;ul>
+&lt;li>Check if the AVM module already exists &amp;amp; understand resource module naming conventions.&lt;/li>
+&lt;li>Create a new GitHub repo for the module from the AVM template.&lt;/li>
+&lt;li>Update the GitHub repo to enable support for running &amp;rsquo;end to end&amp;rsquo; tests in GitHub actions.&lt;/li>
+&lt;li>Build the resource module, using the newres tool.&lt;/li>
+&lt;/ul>
+&lt;p>Let&amp;rsquo;s get started!&lt;/p>
+&lt;h2 id="check-for-an-existing-module">Check for an existing module&lt;/h2>
+&lt;p>If a module already exists, we should use or contribute to the existing one. They are all listed on the &lt;a class="link" href="https://azure.github.io/Azure-Verified-Modules/indexes/terraform/tf-resource-modules/" target="_blank" rel="noopener"
+>AVM website&lt;/a>.&lt;/p>
+&lt;p>Bear in mind that many resources are not available yet, as this initiative is new. We&amp;rsquo;re going to pick &amp;ldquo;Dev Center&amp;rdquo; for this example, as it doesn&amp;rsquo;t yet exist in AVM for Terraform.&lt;/p>
+&lt;h2 id="avm-module-naming">AVM Module naming&lt;/h2>
+&lt;p>If you can&amp;rsquo;t find the resource, lets make one! We&amp;rsquo;ll start by understanding the module naming conventions.&lt;/p>
+&lt;p>AVM modules are named as &lt;a class="link" href="https://azure.github.io/Azure-Verified-Modules/specs/shared/#terraform-resource-module-naming" target="_blank" rel="noopener"
+>per the spec&lt;/a>, to summarise it should look something like this:&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-text" data-lang="text">&lt;span class="line">&lt;span class="cl">avm-res-&amp;lt;resource provider&amp;gt;-&amp;lt;ARM resource type&amp;gt;
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;ul>
+&lt;li>The resource provider should not include the &amp;ldquo;Microsoft.&amp;rdquo; part.&lt;/li>
+&lt;li>The resource type should be in singular form.&lt;/li>
+&lt;/ul>
+&lt;p>Here are some examples to help:&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-text" data-lang="text">&lt;span class="line">&lt;span class="cl">avm-res-containerregistry-registry
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">avm-res-storage-storageaccount
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">avm-res-keyvault-vault
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>The GitHub repo name is prefixed with &lt;code>terraform-azurerm-&lt;/code> to allow it to be published correctly in the Hashicorp public registry.&lt;/p>
+&lt;p>So, for example, the KeyVault GitHub repository would be:&lt;/p>
+&lt;p>&lt;a class="link" href="https://github.com/Azure/terraform-azurerm-avm-res-keyvault-vault" target="_blank" rel="noopener"
+>https://github.com/Azure/terraform-azurerm-avm-res-keyvault-vault&lt;/a>&lt;/p>
+&lt;h2 id="raise-a-module-proposal">Raise a module proposal&lt;/h2>
+&lt;p>If you&amp;rsquo;re planning to contribute back (I strongly encourage it!), it is a good idea to raise an issue, this will help validate the module naming &amp;amp; scope and start the process to find a Microsoft FTE to support the module.&lt;/p>
+&lt;p>You can raise a module proposal using this issue template: &lt;a class="link" href="https://aka.ms/AVM/ModuleProposal" target="_blank" rel="noopener"
+>https://aka.ms/AVM/ModuleProposal&lt;/a>.&lt;/p>
+&lt;h2 id="a-practical-example">A practical example&lt;/h2>
+&lt;p>Lets get started making the Dev Centre resource module in Terraform, this is co-incidentally something I need as a pre-requisite to building a &lt;a class="link" href="https://azure.microsoft.com/en-us/products/dev-box/" target="_blank" rel="noopener"
+>Dev Box&lt;/a> in Azure.&lt;/p>
+&lt;p>It&amp;rsquo;s &lt;em>a very simple example&lt;/em> with a limited number of inputs, a good place to start!&lt;/p>
+&lt;p>We&amp;rsquo;ll check the Hashicorp documentation to make sure there is support for it in the AzureRM Terraform provider, and here it is:&lt;/p>
+&lt;p>&lt;a class="link" href="https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/dev_center" target="_blank" rel="noopener"
+>https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/dev_center&lt;/a>&lt;/p>
+&lt;p>Remember, if AzureRM isn&amp;rsquo;t available, there&amp;rsquo;s always AzAPI, but that is for another day.&lt;/p>
+&lt;p>You may need to register &amp;ldquo;Microsoft.DevCenter&amp;rdquo; in your subscription resource providers if you are following along:&lt;/p>
+&lt;p>&lt;img src="https://blog.kewalaka.nz/p/2024/02/write-an-avm-module/resource-provider.png"
+width="922"
+height="251"
+srcset="https://blog.kewalaka.nz/p/2024/02/write-an-avm-module/resource-provider_hu475af72d10002e73d3e27ff3ae33a613_12335_480x0_resize_box_3.png 480w, https://blog.kewalaka.nz/p/2024/02/write-an-avm-module/resource-provider_hu475af72d10002e73d3e27ff3ae33a613_12335_1024x0_resize_box_3.png 1024w"
+loading="lazy"
+alt="illustrating the registered Microsoft.DevCenter resource provider"
+class="gallery-image"
+data-flex-grow="367"
+data-flex-basis="881px"
+>&lt;/p>
+&lt;h2 id="use-the-avm-template">Use the AVM template&lt;/h2>
+&lt;p>There is a an &lt;a class="link" href="https://github.com/Azure/terraform-azurerm-avm-template" target="_blank" rel="noopener"
+>AVM module template repository&lt;/a> to help get you started.&lt;/p>
+&lt;p>&lt;img src="https://blog.kewalaka.nz/p/2024/02/write-an-avm-module/create-a-new-repo-from-template.png"
+width="799"
+height="130"
+srcset="https://blog.kewalaka.nz/p/2024/02/write-an-avm-module/create-a-new-repo-from-template_hu6c3a0a54fe0212324584e11667e84e81_11787_480x0_resize_box_3.png 480w, https://blog.kewalaka.nz/p/2024/02/write-an-avm-module/create-a-new-repo-from-template_hu6c3a0a54fe0212324584e11667e84e81_11787_1024x0_resize_box_3.png 1024w"
+loading="lazy"
+alt="Select &amp;ldquo;Use this template&amp;rdquo; -&amp;gt; &amp;ldquo;Create a new repository&amp;rdquo;"
+class="gallery-image"
+data-flex-grow="614"
+data-flex-basis="1475px"
+>&lt;/p>
+&lt;p>The repo name will be &lt;code>terraform-azurerm-avm-res-devcenter-devcenter&lt;/code>:&lt;/p>
+&lt;p>&lt;img src="https://blog.kewalaka.nz/p/2024/02/write-an-avm-module/name-the-github-repo.png"
+width="739"
+height="441"
+srcset="https://blog.kewalaka.nz/p/2024/02/write-an-avm-module/name-the-github-repo_hu08d8ead4a9b41c313226910af09e5fea_19465_480x0_resize_box_3.png 480w, https://blog.kewalaka.nz/p/2024/02/write-an-avm-module/name-the-github-repo_hu08d8ead4a9b41c313226910af09e5fea_19465_1024x0_resize_box_3.png 1024w"
+loading="lazy"
+alt="name the repository"
+class="gallery-image"
+data-flex-grow="167"
+data-flex-basis="402px"
+>&lt;/p>
+&lt;h2 id="github-settings">GitHub settings&lt;/h2>
+&lt;p>(TODO link to another guide with more detail for peeps that need it)&lt;/p>
+&lt;p>Within your cloned repo on Github, do the following:&lt;/p>
+&lt;ol>
+&lt;li>Set up a GitHub repo environment called &lt;code>test&lt;/code>.&lt;/li>
+&lt;li>Configure environment protection rule to ensure that approval is required before deploying to this environment.&lt;/li>
+&lt;li>Create a user-assigned managed identity in your test subscription.&lt;/li>
+&lt;li>Create a role assignment for the managed identity on your test subscription, recommend providing this &amp;ldquo;Contributor&amp;rdquo; and &amp;ldquo;Role Based Access Control Administrator&amp;rdquo;.&lt;/li>
+&lt;li>Configure federated identity credentials on the user assigned managed identity. Use the GitHub environment.&lt;/li>
+&lt;li>Set the following secrets on your GitHub environment:
+&lt;ol>
+&lt;li>&lt;code>AZURE_TENANT_ID&lt;/code>&lt;/li>
+&lt;li>&lt;code>AZURE_SUBSCRIPTION_ID&lt;/code> - i.e. the subscription you will be using to deploy resources to test the module.&lt;/li>
+&lt;li>&lt;code>AZURE_CLIENT_ID&lt;/code> - i.e. the client id of the managed identity.&lt;/li>
+&lt;/ol>
+&lt;/li>
+&lt;/ol>
+&lt;h2 id="clone--feature-branch">Clone &amp;amp; feature branch&lt;/h2>
+&lt;p>Clone down the repository and open it in your preferred editor (I use Visual Studio Code).&lt;/p>
+&lt;p>Create a new feature branch for the initial version updates.&lt;/p>
+&lt;h2 id="install-the-newres-command-line-utility">Install the &amp;ldquo;newres&amp;rdquo; command line utility&lt;/h2>
+&lt;p>You can skip this step if you&amp;rsquo;re using the AVM template&amp;rsquo;s Codespace, as it is already installed.&lt;/p>
+&lt;p>&lt;a class="link" href="https://github.com/lonegunmanb/newres/" target="_blank" rel="noopener"
+>newres&lt;/a> will usually greatly speed up writing the resource module where there are a lot of parameters. In this example, there are only a few and isn&amp;rsquo;t really worth it, but we&amp;rsquo;ll continue so you see the method.&lt;/p>
+&lt;p>If you repeat this process with something with lots of parameters, like App Gateway, you&amp;rsquo;ll quickly see the benefit!&lt;/p>
+&lt;p>Assuming you already have &lt;a class="link" href="https://go.dev/doc/install" target="_blank" rel="noopener"
+>golang installed&lt;/a>, run:&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">go install github.com/lonegunmanb/newres/v3@latest
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>Run the following to make a temporary folder for newres output and run the tool:&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">mkdir newres
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nb">cd&lt;/span> newres
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">newres -dir ./ -r azurerm_dev_center
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>If successful, you&amp;rsquo;ll see:&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-text" data-lang="text">&lt;span class="line">&lt;span class="cl">Successfully generated variables.tf and main.tf
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>The newres naming convention needs an adjustment for AVM, in the generated main.tf, observe the variables all start &lt;strong>dev_centre_&lt;/strong> - we need to remove this prefix, leaving you with this:&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;span class="lnt">18
+&lt;/span>&lt;span class="lnt">19
+&lt;/span>&lt;span class="lnt">20
+&lt;/span>&lt;span class="lnt">21
+&lt;/span>&lt;span class="lnt">22
+&lt;/span>&lt;span class="lnt">23
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-terraform" data-lang="terraform">&lt;span class="line">&lt;span class="cl">&lt;span class="kr">resource&lt;/span> &lt;span class="s2">&amp;#34;azurerm_dev_center&amp;#34;&lt;/span> &lt;span class="s2">&amp;#34;this&amp;#34;&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="na">location&lt;/span> = &lt;span class="nb">var&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">location&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="na">name&lt;/span> = &lt;span class="nb">var&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">name&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="na">resource_group_name&lt;/span> = &lt;span class="nb">var&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">resource_group_name&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="na">tags&lt;/span> = &lt;span class="nb">var&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">tags&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">dynamic&lt;/span> &lt;span class="s2">&amp;#34;identity&amp;#34;&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="na">for_each&lt;/span> = &lt;span class="nb">var&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="na">identity&lt;/span> =&lt;span class="o">=&lt;/span> &lt;span class="nx">null&lt;/span> &lt;span class="o">?&lt;/span> &lt;span class="p">[]&lt;/span> &lt;span class="o">:&lt;/span> &lt;span class="p">[&lt;/span>&lt;span class="nb">var&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">identity&lt;/span>&lt;span class="p">]&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">content&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="na">type&lt;/span> = &lt;span class="nx">identity&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">value&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">type&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="na">identity_ids&lt;/span> = &lt;span class="nx">identity&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">value&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">identity_ids&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">dynamic&lt;/span> &lt;span class="s2">&amp;#34;timeouts&amp;#34;&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="na">for_each&lt;/span> = &lt;span class="nb">var&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="na">timeouts&lt;/span> =&lt;span class="o">=&lt;/span> &lt;span class="nx">null&lt;/span> &lt;span class="o">?&lt;/span> &lt;span class="p">[]&lt;/span> &lt;span class="o">:&lt;/span> &lt;span class="p">[&lt;/span>&lt;span class="nb">var&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">timeouts&lt;/span>&lt;span class="p">]&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">content&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="na">create&lt;/span> = &lt;span class="nx">timeouts&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">value&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">create&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="na">delete&lt;/span> = &lt;span class="nx">timeouts&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">value&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">delete&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="na">read&lt;/span> = &lt;span class="nx">timeouts&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">value&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">read&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="na">update&lt;/span> = &lt;span class="nx">timeouts&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">value&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">update&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>This will also need to be fixed in the variables.tf file.&lt;/p>
+&lt;h3 id="newres-updates-for-maintf">newres updates for main.tf&lt;/h3>
+&lt;p>Copy the contents of newres\main.tf into main.tf, replacing this block:&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-terraform" data-lang="terraform">&lt;span class="line">&lt;span class="cl">&lt;span class="kr">resource&lt;/span> &lt;span class="s2">&amp;#34;azurerm_TODO_the_resource_for_this_module&amp;#34;&lt;/span> &lt;span class="s2">&amp;#34;this&amp;#34;&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>Remove the TODO from the top of the file &amp;amp; update the location as follows:&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-terraform" data-lang="terraform">&lt;span class="line">&lt;span class="cl"> &lt;span class="na">location&lt;/span> =&lt;span class="nb"> coalesce&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nb">var&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">location&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">local&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">resource_group_location&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h3 id="update-the-identity-block-in-maintf">Update the identity block in main.tf&lt;/h3>
+&lt;p>Update the dynamic &amp;ldquo;identity&amp;rdquo; block (assuming it exists), following the reference examples in the &lt;a class="link" href="https://azure.github.io/Azure-Verified-Modules/specs/shared/interfaces/#managed-identities" target="_blank" rel="noopener"
+>AVM interface specification for managed identities&lt;/a>:&lt;/p>
+&lt;p>&lt;img src="https://blog.kewalaka.nz/p/2024/02/write-an-avm-module/managed-identity-interface.png"
+width="992"
+height="496"
+srcset="https://blog.kewalaka.nz/p/2024/02/write-an-avm-module/managed-identity-interface_hu024631102f9acf168ac68eee1d5c4e6e_44336_480x0_resize_box_3.png 480w, https://blog.kewalaka.nz/p/2024/02/write-an-avm-module/managed-identity-interface_hu024631102f9acf168ac68eee1d5c4e6e_44336_1024x0_resize_box_3.png 1024w"
+loading="lazy"
+alt="managed identity implementation - for resources supporting both a SystemAssigned &amp; UserAssigned id"
+class="gallery-image"
+data-flex-grow="200"
+data-flex-basis="480px"
+>&lt;/p>
+&lt;p>Make sure to check the Hashicorp documentation to confirm the identities supported by the resource (SystemAssigned, UserAssigned, or both).&lt;/p>
+&lt;p>The &lt;a class="link" href="https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/dev_center#identity-block" target="_blank" rel="noopener"
+>identity block for the Dev Center resource&lt;/a> shows that both types of identities are supported.&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;span class="lnt">6
+&lt;/span>&lt;span class="lnt">7
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-terraform" data-lang="terraform">&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">dynamic&lt;/span> &lt;span class="s2">&amp;#34;identity&amp;#34;&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="na">for_each&lt;/span> = &lt;span class="p">(&lt;/span>&lt;span class="nb">var&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">managed_identities&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">system_assigned&lt;/span> &lt;span class="o">||&lt;/span>&lt;span class="nb"> length&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nb">var&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">managed_identities&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">user_assigned_resource_ids&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="o">&amp;gt;&lt;/span> &lt;span class="m">0&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="o">?&lt;/span> &lt;span class="p">{&lt;/span> &lt;span class="na">this&lt;/span> = &lt;span class="nb">var&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">managed_identities&lt;/span> &lt;span class="p">}&lt;/span> &lt;span class="o">:&lt;/span> &lt;span class="p">{}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">content&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="na">type&lt;/span> = &lt;span class="nx">identity&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">value&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">system_assigned&lt;/span> &lt;span class="o">&amp;amp;&amp;amp;&lt;/span>&lt;span class="nb"> length&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">identity&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">value&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">user_assigned_resource_ids&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="o">&amp;gt;&lt;/span> &lt;span class="m">0&lt;/span> &lt;span class="o">?&lt;/span> &lt;span class="s2">&amp;#34;SystemAssigned, UserAssigned&amp;#34;&lt;/span> &lt;span class="o">:&lt;/span>&lt;span class="nb"> length&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">identity&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">value&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">user_assigned_resource_ids&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="o">&amp;gt;&lt;/span> &lt;span class="m">0&lt;/span> &lt;span class="o">?&lt;/span> &lt;span class="s2">&amp;#34;UserAssigned&amp;#34;&lt;/span> &lt;span class="o">:&lt;/span> &lt;span class="s2">&amp;#34;SystemAssigned&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="na">identity_ids&lt;/span> = &lt;span class="nx">identity&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">value&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">user_assigned_resource_ids&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>The &lt;a class="link" href="https://azure.github.io/Azure-Verified-Modules/specs/shared/interfaces/#managed-identities" target="_blank" rel="noopener"
+>Terraform variable declaration in the specification&lt;/a> has examples for other scenarios (e.g. SystemAssigned only, or UserAssigned only).&lt;/p>
+&lt;h3 id="newres-updates-for-variablestf">newres updates for variables.tf&lt;/h3>
+&lt;p>Edit the contents of newres\variables.tf to remove the following variables:&lt;/p>
+&lt;ul>
+&lt;li>location&lt;/li>
+&lt;li>name&lt;/li>
+&lt;li>resource_group_name&lt;/li>
+&lt;li>identity&lt;/li>
+&lt;li>tags&lt;/li>
+&lt;/ul>
+&lt;p>(we&amp;rsquo;re going to use the ones in the template, instead).&lt;/p>
+&lt;p>Copy the remaining variables to the top of &lt;code>variables.tf&lt;/code> file in the module root folder.
+(in our case, there is only a &amp;rsquo;timeouts&amp;rsquo; variable remaining).&lt;/p>
+&lt;h3 id="newres-tidy-up">newres tidy-up&lt;/h3>
+&lt;p>Remove the newres folder. By this point, any intellisense errors should be fixed in &lt;code>main.tf&lt;/code>, and the top of the main.tf should look something like this:&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;span class="lnt">18
+&lt;/span>&lt;span class="lnt">19
+&lt;/span>&lt;span class="lnt">20
+&lt;/span>&lt;span class="lnt">21
+&lt;/span>&lt;span class="lnt">22
+&lt;/span>&lt;span class="lnt">23
+&lt;/span>&lt;span class="lnt">24
+&lt;/span>&lt;span class="lnt">25
+&lt;/span>&lt;span class="lnt">26
+&lt;/span>&lt;span class="lnt">27
+&lt;/span>&lt;span class="lnt">28
+&lt;/span>&lt;span class="lnt">29
+&lt;/span>&lt;span class="lnt">30
+&lt;/span>&lt;span class="lnt">31
+&lt;/span>&lt;span class="lnt">32
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-terraform" data-lang="terraform">&lt;span class="line">&lt;span class="cl">&lt;span class="kr">data&lt;/span> &lt;span class="s2">&amp;#34;azurerm_resource_group&amp;#34;&lt;/span> &lt;span class="s2">&amp;#34;parent&amp;#34;&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="na">count&lt;/span> = &lt;span class="nb">var&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="na">location&lt;/span> =&lt;span class="o">=&lt;/span> &lt;span class="nx">null&lt;/span> &lt;span class="o">?&lt;/span> &lt;span class="m">1&lt;/span> &lt;span class="o">:&lt;/span> &lt;span class="m">0&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="na">name&lt;/span> = &lt;span class="nb">var&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">resource_group_name&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kr">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kr">resource&lt;/span> &lt;span class="s2">&amp;#34;azurerm_dev_center&amp;#34;&lt;/span> &lt;span class="s2">&amp;#34;this&amp;#34;&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="na">location&lt;/span> =&lt;span class="nb"> coalesce&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nb">var&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">location&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">local&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">resource_group_location&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="na">name&lt;/span> = &lt;span class="nb">var&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">name&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="na">resource_group_name&lt;/span> = &lt;span class="nb">var&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">resource_group_name&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="na">tags&lt;/span> = &lt;span class="nb">var&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">tags&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">dynamic&lt;/span> &lt;span class="s2">&amp;#34;identity&amp;#34;&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="na">for_each&lt;/span> = &lt;span class="p">(&lt;/span>&lt;span class="nb">var&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">managed_identities&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">system_assigned&lt;/span> &lt;span class="o">||&lt;/span>&lt;span class="nb"> length&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nb">var&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">managed_identities&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">user_assigned_resource_ids&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="o">&amp;gt;&lt;/span> &lt;span class="m">0&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="o">?&lt;/span> &lt;span class="p">{&lt;/span> &lt;span class="na">this&lt;/span> = &lt;span class="nb">var&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">managed_identities&lt;/span> &lt;span class="p">}&lt;/span> &lt;span class="o">:&lt;/span> &lt;span class="p">{}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">content&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="na">type&lt;/span> = &lt;span class="nx">identity&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">value&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">system_assigned&lt;/span> &lt;span class="o">&amp;amp;&amp;amp;&lt;/span>&lt;span class="nb"> length&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">identity&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">value&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">user_assigned_resource_ids&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="o">&amp;gt;&lt;/span> &lt;span class="m">0&lt;/span> &lt;span class="o">?&lt;/span> &lt;span class="s2">&amp;#34;SystemAssigned, UserAssigned&amp;#34;&lt;/span> &lt;span class="o">:&lt;/span>&lt;span class="nb"> length&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">identity&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">value&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">user_assigned_resource_ids&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="o">&amp;gt;&lt;/span> &lt;span class="m">0&lt;/span> &lt;span class="o">?&lt;/span> &lt;span class="s2">&amp;#34;UserAssigned&amp;#34;&lt;/span> &lt;span class="o">:&lt;/span> &lt;span class="s2">&amp;#34;SystemAssigned&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="na">identity_ids&lt;/span> = &lt;span class="nx">identity&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">value&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">user_assigned_resource_ids&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">dynamic&lt;/span> &lt;span class="s2">&amp;#34;timeouts&amp;#34;&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="na">for_each&lt;/span> = &lt;span class="nb">var&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="na">timeouts&lt;/span> =&lt;span class="o">=&lt;/span> &lt;span class="nx">null&lt;/span> &lt;span class="o">?&lt;/span> &lt;span class="p">[]&lt;/span> &lt;span class="o">:&lt;/span> &lt;span class="p">[&lt;/span>&lt;span class="nb">var&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">timeouts&lt;/span>&lt;span class="p">]&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">content&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="na">create&lt;/span> = &lt;span class="nx">timeouts&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">value&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">create&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="na">delete&lt;/span> = &lt;span class="nx">timeouts&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">value&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">delete&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="na">read&lt;/span> = &lt;span class="nx">timeouts&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">value&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">read&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="na">update&lt;/span> = &lt;span class="nx">timeouts&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">value&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">update&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>&lt;span class="c1">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># required AVM interfaces
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># (etc)
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h2 id="todo-hunting">TODO hunting&lt;/h2>
+&lt;p>There are a few &amp;ldquo;TODO&amp;rdquo; references in the files that need to be fixed and removed, ignore any that are in &amp;ldquo;README.md&amp;rdquo; because we&amp;rsquo;ll fix those when we automatically update the docs.&lt;/p>
+&lt;h3 id="maintf">main.tf&lt;/h3>
+&lt;ul>
+&lt;li>update &lt;code>azurerm_TODO_resource&lt;/code> appropriately, e.g. &lt;code>azurerm_dev_center&lt;/code>.&lt;/li>
+&lt;/ul>
+&lt;h3 id="localstelemetrytf">locals.telemetry.tf&lt;/h3>
+&lt;ul>
+&lt;li>set the module name and leave the module_type as &amp;ldquo;res&amp;rdquo;, e.g.:&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-terraform" data-lang="terraform">&lt;span class="line">&lt;span class="cl"> &lt;span class="na">telem_puid&lt;/span> = &lt;span class="s2">&amp;#34;UNOFFICIAL&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="na">module_name&lt;/span> = &lt;span class="s2">&amp;#34;res-devcenter-devcenter&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="na">module_type&lt;/span> = &lt;span class="s2">&amp;#34;res&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>I suggest setting telem_puid to &amp;ldquo;UNOFFICIAL&amp;rdquo; in resources created for learning.&lt;/p>
+&lt;h3 id="mainprivateendpointtf">main.privateendpoint.tf&lt;/h3>
+&lt;ul>
+&lt;li>You would typically update &lt;code>private_service_connection&lt;/code> with the correct resource id and subresource name, something like this:&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;span class="lnt">6
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-terraform" data-lang="terraform">&lt;span class="line">&lt;span class="cl">&lt;span class="nx">private_service_connection&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="na">name&lt;/span> = &lt;span class="nb">each&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">value&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">private_service_connection_name&lt;/span> &lt;span class="o">!=&lt;/span> &lt;span class="nx">null&lt;/span> &lt;span class="o">?&lt;/span> &lt;span class="nb">each&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">value&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">private_service_connection_name&lt;/span> &lt;span class="o">:&lt;/span> &lt;span class="s2">&amp;#34;pse-&lt;/span>&lt;span class="si">${&lt;/span>&lt;span class="nb">var&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">name&lt;/span>&lt;span class="si">}&lt;/span>&lt;span class="s2">&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="na">private_connection_resource_id&lt;/span> = &lt;span class="nx">azurerm_TODO&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">this&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">id&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="na">is_manual_connection&lt;/span> = &lt;span class="kc">false&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="na">subresource_names&lt;/span> = &lt;span class="p">[&lt;/span>&lt;span class="s2">&amp;#34;TODO subresource name&amp;#34;&lt;/span>&lt;span class="p">]&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>&lt;em>However&lt;/em>, in this case, Dev Center doesn&amp;rsquo;t support private endpoints, so we&amp;rsquo;re going to remove this file altogether.&lt;/p>
+&lt;p>There is a handy &lt;a class="link" href="https://learn.microsoft.com/en-us/azure/private-link/private-endpoint-overview#private-link-resource" target="_blank" rel="noopener"
+>link&lt;/a> in the template that helps find the right subresource name, should you need it for your resource.&lt;/p>
+&lt;h3 id="localstf">locals.tf&lt;/h3>
+&lt;ul>
+&lt;li>We don&amp;rsquo;t have any locals to add at the moment, so lets remove the reminder to &amp;ldquo;insert locals here&amp;rdquo;&lt;/li>
+&lt;li>In our example, lets also remove the private endpoint local var, as we don&amp;rsquo;t need private endpoints.&lt;/li>
+&lt;/ul>
+&lt;h3 id="terraformtf">terraform.tf&lt;/h3>
+&lt;ul>
+&lt;li>remove the reminder to add required providers&lt;/li>
+&lt;li>providers should really be versioned like this (a correction to template is needed to align to AVM):&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-terraform" data-lang="terraform">&lt;span class="line">&lt;span class="cl">&lt;span class="nx">terraform&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="na">required_version&lt;/span> = &lt;span class="s2">&amp;#34;&amp;gt;= 1.5.0&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">required_providers&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="na">azurerm&lt;/span> = &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="na">source&lt;/span> = &lt;span class="s2">&amp;#34;hashicorp/azurerm&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="na">version&lt;/span> = &lt;span class="s2">&amp;#34;&amp;gt;= 3.71.0, &amp;lt; 4.0&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="na">random&lt;/span> = &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="na">source&lt;/span> = &lt;span class="s2">&amp;#34;hashicorp/random&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="na">version&lt;/span> = &lt;span class="s2">&amp;#34;&amp;gt;= 3.5.0, &amp;lt; 4.0&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h3 id="variablestf">variables.tf&lt;/h3>
+&lt;ul>
+&lt;li>
+&lt;p>In the &lt;code>name&lt;/code> variable, update the regex in the validation condition. If you&amp;rsquo;re not sure how to do this, remove the validation block for now and we will return to it later.&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>Since our resource doesn&amp;rsquo;t support private endpoints, remove the &amp;ldquo;private_endpoints&amp;rdquo; variable.&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>For an unofficial module, you might want to consider setting the default value of the &lt;code>enable_telemetry&lt;/code> variable to &lt;code>false&lt;/code>.&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;h3 id="outputstf">outputs.tf&lt;/h3>
+&lt;ul>
+&lt;li>In this case, we don&amp;rsquo;t need the output &lt;code>private_endpoints&lt;/code>.&lt;/li>
+&lt;li>Remove the reminder &lt;code>TODO&lt;/code>&lt;/li>
+&lt;li>Update the &lt;code>resource&lt;/code> output value &amp;amp; add a couple mandatory outputs missing from the template:&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-terraform" data-lang="terraform">&lt;span class="line">&lt;span class="cl">&lt;span class="kr">output&lt;/span> &lt;span class="s2">&amp;#34;resource&amp;#34;&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="na">value&lt;/span> = &lt;span class="nx">azurerm_dev_center&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">this&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="na">description&lt;/span> = &lt;span class="s2">&amp;#34;This is the full output for the resource.&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kr">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kr">output&lt;/span> &lt;span class="s2">&amp;#34;id&amp;#34;&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="na">description&lt;/span> = &lt;span class="s2">&amp;#34;The ID of the resource.&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="na">value&lt;/span> = &lt;span class="nx">azurerm_dev_center&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">this&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">id&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kr">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kr">output&lt;/span> &lt;span class="s2">&amp;#34;name&amp;#34;&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="na">description&lt;/span> = &lt;span class="s2">&amp;#34;The name of the resource&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="na">value&lt;/span> = &lt;span class="nx">azurerm_dev_center&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">this&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">id&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h3 id="_headermd">_header.md&lt;/h3>
+&lt;ul>
+&lt;li>If you&amp;rsquo;re using this for learning, remove the contents of this file and replace with something like this:&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;span class="lnt">6
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-terraform" data-lang="terraform">&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># terraform-azurerm-res-devcenter-devcenter
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nx">This&lt;/span> &lt;span class="nx">is&lt;/span> &lt;span class="nx">a&lt;/span> &lt;span class="nx">Terraform&lt;/span> &lt;span class="nb">module&lt;/span> &lt;span class="k">for&lt;/span> &lt;span class="nx">Azure&lt;/span> &lt;span class="nx">Dev&lt;/span> &lt;span class="nx">Center&lt;/span> &lt;span class="k">in&lt;/span> &lt;span class="nx">the&lt;/span> &lt;span class="nx">style&lt;/span> &lt;span class="nx">of&lt;/span> &lt;span class="nx">Azure&lt;/span> &lt;span class="nx">Verified&lt;/span> &lt;span class="nx">Modules&lt;/span>&lt;span class="p">.&lt;/span> &lt;span class="nx">For&lt;/span> &lt;span class="nx">official&lt;/span> &lt;span class="nb">module&lt;/span>&lt;span class="nx">s&lt;/span> &lt;span class="nx">please&lt;/span> &lt;span class="nx">see&lt;/span> &lt;span class="o">&amp;lt;&lt;/span>&lt;span class="nx">https&lt;/span>&lt;span class="o">:&lt;/span>&lt;span class="c1">//aka.ms/AVM&amp;gt;.
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="o">&amp;gt;&lt;/span> &lt;span class="p">[&lt;/span>&lt;span class="o">!&lt;/span>&lt;span class="nx">WARNING&lt;/span>&lt;span class="p">]&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="o">&amp;gt;&lt;/span> &lt;span class="nx">Major&lt;/span> &lt;span class="nx">version&lt;/span> &lt;span class="nx">Zero&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="m">0&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">y&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">z&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="nx">is&lt;/span> &lt;span class="k">for&lt;/span> &lt;span class="nx">initial&lt;/span> &lt;span class="nx">development&lt;/span>&lt;span class="p">.&lt;/span> &lt;span class="nx">Anything&lt;/span> &lt;span class="nx">MAY&lt;/span> &lt;span class="nx">change&lt;/span> &lt;span class="nx">at&lt;/span> &lt;span class="nx">any&lt;/span> &lt;span class="nx">time&lt;/span>&lt;span class="p">.&lt;/span> &lt;span class="nx">A&lt;/span> &lt;span class="nb">module&lt;/span> &lt;span class="nx">SHOULD&lt;/span> &lt;span class="nx">NOT&lt;/span> &lt;span class="nx">be&lt;/span> &lt;span class="nx">considered&lt;/span> &lt;span class="nx">stable&lt;/span> &lt;span class="nx">till&lt;/span> &lt;span class="nx">at&lt;/span> &lt;span class="nx">least&lt;/span> &lt;span class="nx">it&lt;/span> &lt;span class="nx">is&lt;/span> &lt;span class="nx">major&lt;/span> &lt;span class="nx">version&lt;/span> &lt;span class="nx">one&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="m">1&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="m">0&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="m">0&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="nx">or&lt;/span> &lt;span class="nx">greater&lt;/span>&lt;span class="p">.&lt;/span> &lt;span class="nx">Changes&lt;/span> &lt;span class="nx">will&lt;/span> &lt;span class="nx">always&lt;/span> &lt;span class="nx">be&lt;/span> &lt;span class="nx">via&lt;/span> &lt;span class="nx">new&lt;/span> &lt;span class="nx">versions&lt;/span> &lt;span class="nx">being&lt;/span> &lt;span class="nx">published&lt;/span> &lt;span class="nx">and&lt;/span> &lt;span class="nx">no&lt;/span> &lt;span class="nx">changes&lt;/span> &lt;span class="nx">will&lt;/span> &lt;span class="nx">be&lt;/span> &lt;span class="nx">made&lt;/span> &lt;span class="nx">to&lt;/span> &lt;span class="nx">existing&lt;/span> &lt;span class="nx">published&lt;/span> &lt;span class="nx">versions&lt;/span>&lt;span class="p">.&lt;/span> &lt;span class="nx">For&lt;/span> &lt;span class="nx">more&lt;/span> &lt;span class="nx">details&lt;/span> &lt;span class="nx">please&lt;/span> &lt;span class="nx">go&lt;/span> &lt;span class="nx">to&lt;/span> &lt;span class="o">&amp;lt;&lt;/span>&lt;span class="nx">https&lt;/span>&lt;span class="o">:&lt;/span>&lt;span class="c1">//semver.org/&amp;gt;
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>If this is not an official module, then I suggest removing the following files:&lt;/p>
+&lt;ul>
+&lt;li>&lt;code>SUPPORT.MD&lt;/code>&lt;/li>
+&lt;li>&lt;code>SECURITY.MD&lt;/code>&lt;/li>
+&lt;li>&lt;code>.github\CODEOWNERS&lt;/code>&lt;/li>
+&lt;/ul>
+&lt;h2 id="creating-the-default-example">Creating the default example&lt;/h2>
+&lt;p>Each of the subfolders inside &lt;code>.\examples&lt;/code> contain a test that is run as part of the end-to-end tests during the the pull request workflow.&lt;/p>
+&lt;p>AVM modules start with a &amp;ldquo;default&amp;rdquo; example - the purpose of this is to test the module in its simplest form with the minimum number of parameters.&lt;/p>
+&lt;h3 id="update-the-default-example">Update the default example&lt;/h3>
+&lt;p>In the default example, you may need to modify the resource group logic if you have policy that restricts where you can deploy resources:&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-terraform" data-lang="terraform">&lt;span class="line">&lt;span class="cl">&lt;span class="kr">resource&lt;/span> &lt;span class="s2">&amp;#34;azurerm_resource_group&amp;#34;&lt;/span> &lt;span class="s2">&amp;#34;this&amp;#34;&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="na">name&lt;/span> = &lt;span class="nb">module&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">naming&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">resource_group&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">name_unique&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="na">location&lt;/span> = &lt;span class="s2">&amp;#34;AustraliaEast&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>In this case, the resource is only supported in the following regions, so pick one of these:&lt;/p>
+&lt;ul>
+&lt;li>&amp;lsquo;australiaeast,canadacentral,westeurope,japaneast,uksouth,eastus,eastus2,southcentralus,westus3,centralindia,eastasia,northeurope,koreacentral&amp;rsquo;&lt;/li>
+&lt;/ul>
+&lt;p>This also means we can remove the logic that randomly selects a region:&lt;/p>
+&lt;p>&lt;img src="https://blog.kewalaka.nz/p/2024/02/write-an-avm-module/remove-random-region.png"
+width="531"
+height="416"
+srcset="https://blog.kewalaka.nz/p/2024/02/write-an-avm-module/remove-random-region_huf92d07ef5771d8ed5f1b3250f72d543d_20186_480x0_resize_box_3.png 480w, https://blog.kewalaka.nz/p/2024/02/write-an-avm-module/remove-random-region_huf92d07ef5771d8ed5f1b3250f72d543d_20186_1024x0_resize_box_3.png 1024w"
+loading="lazy"
+alt="lines to be removed"
+class="gallery-image"
+data-flex-grow="127"
+data-flex-basis="306px"
+>&lt;/p>
+&lt;p>The module call is at the end of &lt;code>main.tf&lt;/code>, this would typically need adjustment to add the required variables, however in the case of Dev Center, just the name and resource group is enough:&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-terraform" data-lang="terraform">&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># This is the module call
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># Do not specify location here due to the randomization above.
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># Leaving location as `null` will cause the module to use the resource group location
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># with a data source.
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="kr">module&lt;/span> &lt;span class="s2">&amp;#34;dev_center&amp;#34;&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="na">source&lt;/span> = &lt;span class="s2">&amp;#34;../../&amp;#34;&lt;/span>&lt;span class="c1">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"> # source = &amp;#34;Azure/avm-res-devcenter-devcenter/azurerm&amp;#34;
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"> # ...
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="na">enable_telemetry&lt;/span> = &lt;span class="nb">var&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">enable_telemetry&lt;/span>&lt;span class="c1"> # see variables.tf
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="na">name&lt;/span> = &lt;span class="nb">module&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">naming&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">dev_test_lab&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">name_unique&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="na">resource_group_name&lt;/span> = &lt;span class="nx">azurerm_resource_group&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">this&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">name&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h2 id="updating-docs-and-running-pr-checks">Updating docs and running PR checks&lt;/h2>
+&lt;p>This requires Docker to be installed as the checks run in a container (The Codespace is set up with Docker support).&lt;/p>
+&lt;p>The AVM template includes a script to help running checks. There is a bash version (&lt;code>./avm&lt;/code>) and a batch file version (&lt;code>./avm.bat&lt;/code>). I recommend using the &lt;strong>bash&lt;/strong> version.&lt;/p>
+&lt;p>Don&amp;rsquo;t forget to check the line-encoding is set to &amp;ldquo;LF&amp;rdquo;, else you will get &lt;code>/usr/bin/env: ‘sh\r’: No such file or directory&lt;/code>.&lt;/p>
+&lt;p>Mark the file as executable the first time you use the script:&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">chmod +x ./avm
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>To update the docs:&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">./avm docs
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>Once the container has been pulled, you&amp;rsquo;ll see output like this:&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;span class="lnt">6
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-text" data-lang="text">&lt;span class="line">&lt;span class="cl">curl -H &amp;#39;Cache-Control: no-cache, no-store&amp;#39; -sSL &amp;#34;&amp;#34;https://raw.githubusercontent.com/Azure/tfmod-scaffold/main/avm_scripts&amp;#34;/docs-gen.sh&amp;#34; | sh -s
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">==&amp;gt; Generating module documentation...
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">README.md updated successfully
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">==&amp;gt; Generating examples documentation...
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">===&amp;gt; Generating examples documentation in ./default
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">default/README.md updated successfully
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>To confirm readiness for a Pull Request, run the following:&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">./avm pr-check
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>At the time of writing, this will perform the following:&lt;/p>
+&lt;ul>
+&lt;li>ensure each of the examples &lt;code>terraform validate&lt;/code>&lt;/li>
+&lt;li>run formatting and lint checks for go and terraform&lt;/li>
+&lt;li>run any unit tests (not the end to end examples - they run during PR)&lt;/li>
+&lt;/ul>
+&lt;h2 id="github-runners">GitHub runners&lt;/h2>
+&lt;p>Microsoft use internal runners for AVM end to end tests. If you&amp;rsquo;re not a Microsoft FTE, you&amp;rsquo;ll need to amend your E2E tests to use your own subscription&lt;/p>
+&lt;p>To do this, replace &lt;code>.github\workflows\e2e.yml&lt;/code> with my version here:&lt;/p>
+&lt;p>&lt;a class="link" href="https://gist.github.com/kewalaka/93ec3da3c6a39610da3eef4b04c37365" target="_blank" rel="noopener"
+>https://gist.github.com/kewalaka/93ec3da3c6a39610da3eef4b04c37365&lt;/a>&lt;/p>
+&lt;p>Note, running end to end tests deploys and destroys resources, thus does incur cost.&lt;/p>
+&lt;h2 id="raise-a-pr">Raise a PR&lt;/h2>
+&lt;p>If you&amp;rsquo;ve made it this far, and resolved any PR checks, you are ready to raise the initial pull request.&lt;/p>
+&lt;p>If you&amp;rsquo;ve been following along, hopefully success will smile down on you:&lt;/p>
+&lt;p>&lt;img src="https://blog.kewalaka.nz/p/2024/02/write-an-avm-module/all-checks-passed.png"
+width="851"
+height="308"
+srcset="https://blog.kewalaka.nz/p/2024/02/write-an-avm-module/all-checks-passed_hu84f8dfe1533e20247501f296d52a206d_23234_480x0_resize_box_3.png 480w, https://blog.kewalaka.nz/p/2024/02/write-an-avm-module/all-checks-passed_hu84f8dfe1533e20247501f296d52a206d_23234_1024x0_resize_box_3.png 1024w"
+loading="lazy"
+alt="all checks have passed in the PR"
+class="gallery-image"
+data-flex-grow="276"
+data-flex-basis="663px"
+>&lt;/p>
+&lt;p>&amp;hellip; at which your point can merge to main and congratulate yourself on getting this far!&lt;/p>
+&lt;h3 id="find-this-on-github">Find this on Github&lt;/h3>
+&lt;p>You can find the result of this blog post at this location:&lt;/p>
+&lt;p>&lt;a class="link" href="https://github.com/kewalaka/terraform-azurerm-avm-res-devcenter-devcenter" target="_blank" rel="noopener"
+>https://github.com/kewalaka/terraform-azurerm-avm-res-devcenter-devcenter&lt;/a>&lt;/p>
+&lt;h2 id="where-next">Where next&lt;/h2>
+&lt;p>There&amp;rsquo;s more to follow in future blog posts, here&amp;rsquo;s a taster:&lt;/p>
+&lt;h3 id="add-child-resources">Add child resources&lt;/h3>
+&lt;p>The scope of an AVM module must include &amp;ldquo;child&amp;rdquo; resources within the same resource provider scope, &lt;a class="link" href="https://learn.microsoft.com/en-us/azure/templates/microsoft.devcenter/devcenters" target="_blank" rel="noopener"
+>which for Dev Centre is here&lt;/a>.&lt;/p>
+&lt;p>In the case of Dev Center, this means the module needs to be extended to include dev center projects. Other child resource such as DevBox definitions and Gallery support will require use of the AzAPI provider, as they are not yet covered by AzureRM.&lt;/p>
+&lt;h3 id="add-more-examples-end-to-end-tests">Add more examples (end to end tests)&lt;/h3>
+&lt;p>Tests need to be added to provide coverage for resource functionality. See &lt;code>.\examples\README.md&lt;/code> for more info on how to add new examples.&lt;/p>
+&lt;h2 id="where-to-look-for-inspiration">Where to look for inspiration&lt;/h2>
+&lt;p>Matt White (&lt;a class="link" href="github.com/matt-FFFFFF" >@matt-FFFFFF&lt;/a> on Github) is the Microsoft lead for Azure Verified Modules, if you&amp;rsquo;re looking for inspiration then I recommend checking out his Key Vault module here:&lt;/p>
+&lt;p>&lt;a class="link" href="https://github.com/Azure/terraform-azurerm-avm-res-keyvault-vault" target="_blank" rel="noopener"
+>https://github.com/Azure/terraform-azurerm-avm-res-keyvault-vault&lt;/a>&lt;/p>
+&lt;p>You can also check out some of my own AVM-style modules, e.g. these ones in the Azure org that I have helped co-author:&lt;/p>
+&lt;ul>
+&lt;li>&lt;a class="link" href="https://github.com/Azure/terraform-azurerm-avm-res-containerregistry-registry" target="_blank" rel="noopener"
+>https://github.com/Azure/terraform-azurerm-avm-res-containerregistry-registry&lt;/a>&lt;/li>
+&lt;li>&lt;a class="link" href="https://github.com/Azure/terraform-azurerm-avm-res-app-managedenvironment" target="_blank" rel="noopener"
+>https://github.com/Azure/terraform-azurerm-avm-res-app-managedenvironment&lt;/a>&lt;/li>
+&lt;li>&lt;a class="link" href="https://github.com/Azure/terraform-azurerm-avm-res-eventhub-namespace" target="_blank" rel="noopener"
+>https://github.com/Azure/terraform-azurerm-avm-res-eventhub-namespace&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;p>&amp;amp; you can find more on &lt;a class="link" href="https://github.com/kewalaka" target="_blank" rel="noopener"
+>my GitHub account&lt;/a>, that I&amp;rsquo;m in the progress of contributing:&lt;/p>
+&lt;ul>
+&lt;li>&lt;a class="link" href="https://github.com/kewalaka/terraform-azurerm-avm-res-sql-server" target="_blank" rel="noopener"
+>https://github.com/kewalaka/terraform-azurerm-avm-res-sql-server&lt;/a>&lt;/li>
+&lt;li>&lt;a class="link" href="https://github.com/kewalaka/terraform-azurerm-avm-res-cognitiveservices-account" target="_blank" rel="noopener"
+>https://github.com/kewalaka/terraform-azurerm-avm-res-cognitiveservices-account&lt;/a>&lt;/li>
+&lt;li>&lt;a class="link" href="https://github.com/kewalaka/terraform-azurerm-res-storage-storageaccount" target="_blank" rel="noopener"
+>https://github.com/kewalaka/terraform-azurerm-res-storage-storageaccount&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;p>Below is an &amp;ldquo;AVM-style&amp;rdquo; Container Apps that uses an AzureRM-like interface, whilst using AzAPI internally:&lt;/p>
+&lt;ul>
+&lt;li>&lt;a class="link" href="https://github.com/kewalaka/terraform-azapi-res-app-containerapp" target="_blank" rel="noopener"
+>https://github.com/kewalaka/terraform-azapi-res-app-containerapp&lt;/a>&lt;/li>
+&lt;/ul></description></item><item><title>Use the "newres" cli to make Terraform modules faster.</title><link>https://blog.kewalaka.nz/p/2023/12/newres-cli/</link><pubDate>Sun, 24 Dec 2023 14:06:46 +1300</pubDate><guid>https://blog.kewalaka.nz/p/2023/12/newres-cli/</guid><description>&lt;img src="https://blog.kewalaka.nz/p/2023/12/newres-cli/th-3033017124.jpg" alt="Featured image of post Use the "newres" cli to make Terraform modules faster." />&lt;p>&lt;code>newres&lt;/code> is a command line utility that helps you write Terraform modules faster. It supports multiple cloud providers (e.g. azure, aws, gcp), and several other providers too (e.g. kubernetes &amp;amp; tls).&lt;/p>
+&lt;h2 id="usage">Usage&lt;/h2>
+&lt;p>To use, is as easy as:&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-pwsh" data-lang="pwsh">&lt;span class="line">&lt;span class="cl">&lt;span class="n">newres&lt;/span> &lt;span class="n">-dir&lt;/span> &lt;span class="p">[&lt;/span>&lt;span class="no">DIRECTORY&lt;/span>&lt;span class="p">]&lt;/span> &lt;span class="p">[&lt;/span>&lt;span class="n">-u&lt;/span>&lt;span class="p">]&lt;/span> &lt;span class="p">[&lt;/span>&lt;span class="n">-r&lt;/span> &lt;span class="n">RESOURCE_TYPE&lt;/span>&lt;span class="p">]&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>&amp;hellip;e.g. for an Azure Resource Group:&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-pwsh" data-lang="pwsh">&lt;span class="line">&lt;span class="cl">&lt;span class="n">newres&lt;/span> &lt;span class="n">-dir&lt;/span> &lt;span class="p">./&lt;/span> &lt;span class="n">-r&lt;/span> &lt;span class="n">azurerm_resource_group&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>This will create the &amp;lsquo;main.tf&amp;rsquo; and &amp;lsquo;variables.tf&amp;rsquo; covering the arguments from the schema documentation. The example screenshot below shows the start of main.tf for a cognitive services account resource, illustrating the coverage and the use of dynamics for optional blocks.&lt;/p>
+&lt;p>&lt;img src="https://blog.kewalaka.nz/p/2023/12/newres-cli/1703037997194.jpg"
+width="829"
+height="559"
+srcset="https://blog.kewalaka.nz/p/2023/12/newres-cli/1703037997194_hu4636aac328d9784e4a41b11324549040_88050_480x0_resize_q75_box.jpg 480w, https://blog.kewalaka.nz/p/2023/12/newres-cli/1703037997194_hu4636aac328d9784e4a41b11324549040_88050_1024x0_resize_q75_box.jpg 1024w"
+loading="lazy"
+alt="illustration of the output of newres CLI for an Azure Cognitive Services account"
+class="gallery-image"
+data-flex-grow="148"
+data-flex-basis="355px"
+>&lt;/p>
+&lt;p>The tool can be run multiple times in the same directory, allowing you to continue to add more resource types to the main.tf &amp;amp; variables.tf files.&lt;/p>
+&lt;h3 id="unified-variable-option">Unified variable option&lt;/h3>
+&lt;p>The &amp;lsquo;unified&amp;rsquo; variable flag (&amp;rsquo;-u&amp;rsquo;) is particularly useful for writing the variable definitions for child resources in modules, such as the database resource in a sql server module.&lt;/p>
+&lt;h2 id="availability--instructions">Availability &amp;amp; instructions&lt;/h2>
+&lt;p>More details, including installation instructions, available on the &lt;a class="link" href="https://github.com/lonegunmanb/newres" target="_blank" rel="noopener"
+>official github site&lt;/a>.&lt;/p></description></item><item><title>Privacy matters</title><link>https://blog.kewalaka.nz/p/2023/10/privacy-is-normal/</link><pubDate>Fri, 27 Oct 2023 16:45:12 +1000</pubDate><guid>https://blog.kewalaka.nz/p/2023/10/privacy-is-normal/</guid><description>&lt;img src="https://blog.kewalaka.nz/p/2023/10/privacy-is-normal/privacy-is-normal.png" alt="Featured image of post Privacy matters" />&lt;blockquote>
+&lt;p>original credit: &lt;a class="link" href="https://twitter.com/ctomeo/status/1558162446321319941" target="_blank" rel="noopener"
+>@ctomeo&lt;/a>&lt;/p>
+&lt;/blockquote>
+&lt;h2 id="privacy-is-normal">Privacy is normal&lt;/h2>
+&lt;p>Privacy is for good guys. It&amp;rsquo;s for mums and bike messengers and foodies.&lt;/p>
+&lt;p>Privacy is for business meetings and voting booths.&lt;/p>
+&lt;blockquote>
+&lt;p>It&amp;rsquo;s why we have shower curtains.&lt;/p>
+&lt;/blockquote>
+&lt;p>It&amp;rsquo;s why we have that little padlock icon in our browser bar.&lt;/p>
+&lt;p>Privacy protects you from discrimination and from identity theft, and it keeps your food-delivery history under wraps.&lt;/p>
+&lt;p>It can also shield you from those creepy somebody-has-definitely-been-listening-to-my-thoughts ads on social media apps.&lt;/p>
+&lt;blockquote>
+&lt;p>Privacy gives you the power to choose what and with whom you&amp;rsquo;ll share.&lt;/p>
+&lt;/blockquote>
+&lt;p>It provides safety, control and the right to grant access.&lt;/p>
+&lt;blockquote>
+&lt;p>Privacy gives you the ability to express yourself&lt;/p>
+&lt;/blockquote>
+&lt;p>To be creative, to spend your time and your money in whatever manner you like, without the scrutiny of others. It protects our intimate moments, our most embarrassing ambitions, our radical ideas and the ability to be our true selves.&lt;/p>
+&lt;blockquote>
+&lt;p>Privacy is freedom, consent, dignity and security&lt;/p>
+&lt;/blockquote>
+&lt;!-- raw HTML omitted -->
+&lt;h2 id="privacy-is-normal-1">Privacy is normal.&lt;/h2></description></item><item><title>Azure Verified Modules</title><link>https://blog.kewalaka.nz/p/2023/09/azure-verified-modules/</link><pubDate>Mon, 25 Sep 2023 07:32:14 +1300</pubDate><guid>https://blog.kewalaka.nz/p/2023/09/azure-verified-modules/</guid><description>&lt;img src="https://blog.kewalaka.nz/p/2023/09/azure-verified-modules/avm.jpg" alt="Featured image of post Azure Verified Modules" />&lt;p>&lt;a class="link" href="https://aka.ms/AVM" target="_blank" rel="noopener"
+>Azure Verified Modules&lt;/a> is an initiative in development from Microsoft that seeks to unify many previous attempts to standardarise Infrastructure as Code modules on the Azure platform. The initiative aims to establish strategy, governance, and create a brand that becomes the go to place for resources &amp;amp; patterns, currently targeting Bicep and Terraform.&lt;/p>
+&lt;p>Microsoft&amp;rsquo;s aim is to &amp;ldquo;consolidate and set the standards for what a good Infrastructure-as-Code module looks like&amp;rdquo;, following the principles of the &lt;a class="link" href="http://aka.ms/WAF" target="_blank" rel="noopener"
+>Well Architected Framework&lt;/a>, evolving existing efforts such as the &lt;a class="link" href="https://github.com/Azure/ResourceModules" target="_blank" rel="noopener"
+>CARML library for Bicep resources&lt;/a>.&lt;/p>
+&lt;p>I&amp;rsquo;m particularly excited to see the direction for the Terraform modules, this would benefit from such a focal point, and I hope it will unify what I believe has been a fragmented ecosystem on the Azure platform.&lt;/p>
+&lt;p>The initiative is at an early stage, and not yet open to contributions outside of Microsoft, but if you&amp;rsquo;re interested or working in the DevOps space on the Azure platform, I believe this is one to watch!&lt;/p></description></item><item><title>Use an alias in your PowerShell profile to create a new Hugo post</title><link>https://blog.kewalaka.nz/p/2023/07/hugo-pwsh-alias/</link><pubDate>Wed, 12 Jul 2023 00:00:00 +0000</pubDate><guid>https://blog.kewalaka.nz/p/2023/07/hugo-pwsh-alias/</guid><description>&lt;img src="https://blog.kewalaka.nz/p/2023/07/hugo-pwsh-alias/windows-powershell-eyecatch-4060478705.png" alt="Featured image of post Use an alias in your PowerShell profile to create a new Hugo post" />&lt;p>The command to create a new Hugo post is:&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-pwsh" data-lang="pwsh">&lt;span class="line">&lt;span class="cl">&lt;span class="n">hugo&lt;/span> &lt;span class="n">new&lt;/span> &lt;span class="p">&amp;lt;&lt;/span>&lt;span class="n">path&lt;/span> &lt;span class="n">to&lt;/span> &lt;span class="n">new&lt;/span> &lt;span class="n">content&lt;/span>&lt;span class="p">&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h3 id="use-an-alias">Use an alias&lt;/h3>
+&lt;p>Using Powershell, you can use an alias to make this easier, here is the block of code we are going to use:&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-pwsh" data-lang="pwsh">&lt;span class="line">&lt;span class="cl">&lt;span class="kd">function&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nb">New-HugoPost&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">param&lt;/span> &lt;span class="p">(&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">[&lt;/span>&lt;span class="no">string&lt;/span>&lt;span class="p">]&lt;/span>&lt;span class="nv">$PostName&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c"># UPDATE ME TO POINT TO YOUR BLOG PATH&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nv">$blogPath&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="s2">&amp;#34;c:\path\to\your\blog&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nb">set-location&lt;/span> &lt;span class="nv">$blogPath&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">&amp;amp;&lt;/span> &lt;span class="n">hugo&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="py">exe&lt;/span> &lt;span class="n">new&lt;/span> &lt;span class="s2">&amp;#34;content\post\&lt;/span>&lt;span class="nv">$PostName&lt;/span>&lt;span class="s2">\index.md&amp;#34;&lt;/span> &lt;span class="n">-c&lt;/span> &lt;span class="nv">$blogPath&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nb">Set-Alias&lt;/span> &lt;span class="n">nhp&lt;/span> &lt;span class="nb">New-HugoPost&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>This can be reloaded each time Powershell starts by editing your profile:&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;span class="lnt">6
+&lt;/span>&lt;span class="lnt">7
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-pwsh" data-lang="pwsh">&lt;span class="line">&lt;span class="cl">&lt;span class="c"># open up the profile&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">notepad&lt;/span> &lt;span class="nv">$profile&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c">#&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c"># ** paste in the code block above &amp;amp; save **&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c"># &lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c"># reload the profile&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">.&lt;/span> &lt;span class="nv">$profile&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h3 id="test-it-works">Test it works&lt;/h3>
+&lt;p>Then, to create a new post using the new, friendly &lt;code>nhp&lt;/code> alias:&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-pwsh" data-lang="pwsh">&lt;span class="line">&lt;span class="cl">&lt;span class="n">nhp&lt;/span> &lt;span class="nb">my-new&lt;/span>&lt;span class="n">-post&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div></description></item><item><title>Useful git config settings</title><link>https://blog.kewalaka.nz/p/2023/05/git-config-starter/</link><pubDate>Mon, 15 May 2023 00:00:00 +0000</pubDate><guid>https://blog.kewalaka.nz/p/2023/05/git-config-starter/</guid><description>&lt;img src="https://blog.kewalaka.nz/p/2023/05/git-config-starter/img_git-config-featured-4001369487.png" alt="Featured image of post Useful git config settings" />&lt;p>This is a summary of useful git config commands. Git settings exist in a hierachy, for Windows the default locations are:&lt;/p>
+&lt;ul>
+&lt;li>System wide - %programfiles%\Git\etc\gitconfig&lt;/li>
+&lt;li>Global - %userprofile%.gitconfig&lt;/li>
+&lt;li>Local to the repository - .git/config&lt;/li>
+&lt;/ul>
+&lt;h2 id="common-global-properties">Common global properties&lt;/h2>
+&lt;p>These ones are recommended to be set after Git has been installed:&lt;/p>
+&lt;ul>
+&lt;li>&lt;code>git config --global user.name &amp;quot;your name&amp;quot;&lt;/code>&lt;/li>
+&lt;li>&lt;code>git config --global user.email you@example.com&lt;/code>&lt;/li>
+&lt;/ul>
+&lt;h3 id="overriding-properties">Overriding properties&lt;/h3>
+&lt;p>Settings lower in the hierachy override, so for example, if you need to use a different user name and email for a particular repository:&lt;/p>
+&lt;ul>
+&lt;li>&lt;code>git config user.name &amp;quot;your name&amp;quot;&lt;/code>&lt;/li>
+&lt;li>&lt;code>git config user.email you@example.com&lt;/code>&lt;/li>
+&lt;/ul>
+&lt;p>Run this in the git repository you wish to modify. Local is implied if another scope such as &lt;code>--global&lt;/code> is not specified.&lt;/p>
+&lt;h2 id="listing-settings">Listing settings&lt;/h2>
+&lt;ul>
+&lt;li>List global settings: &lt;code>git config --global --list&lt;/code>&lt;/li>
+&lt;li>List &lt;strong>only&lt;/strong> local settings: &lt;code>git config --local --list&lt;/code>&lt;/li>
+&lt;li>Show where settings apply from: &lt;code>git config --list --show-origin&lt;/code>&lt;/li>
+&lt;/ul>
+&lt;h2 id="useful-settings">Useful settings&lt;/h2>
+&lt;ul>
+&lt;li>&lt;code>git config --global init.defaultbranch main&lt;/code> will set the default branch to any new repository to &amp;lsquo;main&amp;rsquo;&lt;/li>
+&lt;li>&lt;code>git config --global user.signingkey &amp;lt;your key&amp;gt;&lt;/code> allows you to set your GPG key for signing commits&lt;/li>
+&lt;li>&lt;code>git config --global credential.msauthflow system&lt;/code> will set the git credential manager to use your system default browser (otherwise it can use IE)&lt;/li>
+&lt;/ul>
+&lt;h2 id="removing-settings">Removing settings&lt;/h2>
+&lt;p>This is done using &lt;code>--unset&lt;/code> or &lt;code>--unset-all&lt;/code> if you want to remove all settings with a particular property, e.g.:&lt;/p>
+&lt;ul>
+&lt;li>&lt;code>git config --global --unset user.signingkey&lt;/code>&lt;/li>
+&lt;/ul>
+&lt;p>An example of removing a local config setting with a specific value (user name: &amp;ldquo;Mr X&amp;rdquo;):&lt;/p>
+&lt;ul>
+&lt;li>&lt;code>git config --unset user.name &amp;quot;Mr X&amp;quot;&lt;/code>&lt;/li>
+&lt;/ul>
+&lt;h2 id="git-credential-manager">Git Credential Manager&lt;/h2>
+&lt;p>If you&amp;rsquo;re using Git for Windows, you automatically have &lt;a class="link" href="https://github.com/git-ecosystem/git-credential-manager" target="_blank" rel="noopener"
+>git credential manager&lt;/a> installed so you don&amp;rsquo;t have to continuously authenticate.&lt;/p>
+&lt;p>This adds a new global setting &lt;code>credential.helper=manager&lt;/code>&lt;/p></description></item><item><title>Hello world, what shall we find here?</title><link>https://blog.kewalaka.nz/p/hello-world/</link><pubDate>Mon, 17 Apr 2023 00:00:00 +0000</pubDate><guid>https://blog.kewalaka.nz/p/hello-world/</guid><description>&lt;img src="https://blog.kewalaka.nz/p/hello-world/cat-in-suitcase.jpg" alt="Featured image of post Hello world, what shall we find here?" />&lt;blockquote>
+&lt;p>Photo by &lt;a class="link" href="https://www.publicdomainpictures.net/en/view-image.php?image=161622&amp;amp;picture=cat-in-suitcase" target="_blank" rel="noopener"
+>George Hodan&lt;/a> released under Public Domain license.&lt;/p>
+&lt;/blockquote></description></item><item><title>Archives</title><link>https://blog.kewalaka.nz/archives/</link><pubDate>Sun, 06 Mar 2022 00:00:00 +0000</pubDate><guid>https://blog.kewalaka.nz/archives/</guid><description/></item><item><title>Search</title><link>https://blog.kewalaka.nz/search/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://blog.kewalaka.nz/search/</guid><description/></item></channel></rss>
